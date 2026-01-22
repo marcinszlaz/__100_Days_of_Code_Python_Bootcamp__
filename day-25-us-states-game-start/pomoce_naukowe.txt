@@ -1,0 +1,47 @@
+# data = pandas.read_csv("weather_data.csv")
+# print(data)
+# table = PrettyTable() # instalacja prettytable ctrl ` pip install prettytable, tylko w venv, konstruktor
+# table.field_names = data.columns.tolist() # field nejmy = data z panda, columny, tolist() zmienia specjalny format dan
+# #ych z pandy na zwykla liste czytelna dla prettytable, obiekty pandas sa niezrozumialem dla pretty
+# table.add_rows(data.values.tolist()) # obiekt tabelka dodaje rowy xD jako argument dostaje values z obiektu
+# # data zmienione w stadnardowa pythonowa liste
+# # print(table)
+#
+# # mierzymy srednia temperature z kolumy temperatura
+#
+# print(data['day'].values)
+# print(f'srednia temperatura: {data['temp'].mean():.3f}')
+# print(data['temp'].describe())
+# print(data['temp'].max())
+# print(data.temp) # tak też można dostać do kolumny, drukuje z indexami
+#
+# # how to get rows ?
+# print(data[data.day == "Monday"]) # to jest świetne :)
+# # which day of week has the highest temperature :)
+#
+# print('The day with the highest temperature: \n',data[data.temp == data.temp.max()])
+# print('The day with the highest temperature: \n',data[data.temp == data['temp'].max()]) # to x kropką jest trochę myl
+# # ące
+# monday = data[data.day == "Monday"]
+# print(monday.condition)
+# print(f'Temperatura w poniedziałek {monday.temp[0] * 1.8 + 32} stopni fahrenhaita')
+# monday_temp = monday.temp
+# print(monday_temp)
+#
+# # How to create dataframe from scratch ?
+# # np z dict
+#
+# data_dict = {
+#   "students": ["Amy","James","Angela"],
+#   "scores": [76, 56, 65]
+# }
+# print(data_dict)
+# data = pandas.DataFrame(data_dict) # bardzo prosty sposob zeby np slownik przerobic na dataframe a potem dataframe w csv
+# data.to_csv("new_data.csv")
+
+states_list = df.read_csv('50_states.csv') # utworzenie listy stanów pandasem xD
+print(states_list['state'])
+print(f'{answer_state}')
+
+if states_list[states_list['state'] == 'California']:
+  print('Eureka')

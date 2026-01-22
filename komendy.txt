@@ -1,0 +1,45 @@
+
+sa 3 poziomy, workdirectory, stage i chyba repo albo commited
+
+git init - inicjuje gita, w folderze z projektami
+git rm -rf .git w folderze z inicjacja git, od inicjowywuje gita
+git config user.name
+git config user.email - ustawia nazwe usera i emaila
+git add <nazwa-pliku> pcha plik z workdirectory do stage
+git rm --cached 	uswa zkaszowane pliki w stage
+git rm -rf --cached .  - usuwa wszystko w folderze, rekursywnie, silowo
+przydatne jak dodasz do stage duzo i nie tego co trzeba, usuwa z podfolderow rowniez
+git commit -m"message" pcha do repozytorium ale tylko lokalnego
+git log - logi co sie dzialo i kto
+git status - status plikow, co workdir co stage co repo itp
+code . - odpala visual studio
+pycharm64.exe . odpala pycharma, zmienimy inny alias
+git add -A dodaje wszystkie pliki w folderze do staging area
+git restore --staged <nazwa-pliku> cofa dodanie do stagingu
+git commit -am"komentarz" w jednej komendzie (z pominieciem git add) dodajemy do staging area (teren postoju xD) i comitujemy do repo
+git branch  - wyswietla ci w jakim branchu jestes
+git checkout -b"testy" tworyz nowy branch testy
+git switch <nazwa-brancha> przelacza miedzy galeziami
+git checkout <nazwa_brancha> to samo co switch
+git merge <nazwa_dodawanego_brancha>
+git push - wypycha na zewnetrzne rep ale najpierw trzeba miec konto na github i stworzyc tam repozytorium, z tego repo dostaniesz adres na ktory bedzisz konfigurowal i puszowal
+git remote add <lokalny_alias_repozytoriumi_zdalnego> https:.. z repo
+(najlepiej taki jak masz lokalnie) czyli w calosci:
+git remote add serwer_babci https://github.com/marcinszlaz/git-learning.git
+git pull origin main - sciaga ustawienia z repo zdalnego, najlepiej jak jest puste a ma tylko readme i .gitignore
+potem git push -u origin main (ten origin to po prostu źródło, czyli repo na github a main to branch glowny na remote repo)
+flaga -u to --set-upstream, ustawiasz gdzie ladujesz lokalne commity
+git remote -v  - wyswietla ustawione upstreamy czyli pod jaka nazwe aliasu masz ladowac lokalne commity, a ten alias to adres repo na github
+
+instalacja gh - dl z strony git, *.msi, instalacja, masz wtedy komendy w w cmd i git bash
+gh repo list - wyswietla liste repo
+gh auth login logujesz sie na swoje github konto
+git branch -vv - to co wyzej
+git branch --unset-upstream odustawia upstreamy dla brancha
+git remote remove <nazwa_aliasu> - usuwa aliasy do remote repo
+git pull origin main  - sciaga dane z remote repo, np .gitignore przed robieniem git add zeby obciac zle pliki i foldery
+
+******
+ZEBY ODPALIC PYCHARM albo cos innego trzeba zakutalizowac PATH, jak to w kons
+
+
