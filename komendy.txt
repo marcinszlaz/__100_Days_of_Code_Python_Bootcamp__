@@ -11,6 +11,8 @@ git rm -rf --cached .  - usuwa wszystko w folderze, rekursywnie, silowo
 przydatne jak dodasz do stage duzo i nie tego co trzeba, usuwa z podfolderow rowniez
 git commit -m"message" pcha do repozytorium ale tylko lokalnego
 git log - logi co sie dzialo i kto
+git branch -m <nowa_nazwa> jak jestes w branch
+git branch -m <stara_nazwa> <nowa_nazwa> jak jestes w innym b
 git status - status plikow, co workdir co stage co repo itp
 code . - odpala visual studio
 pycharm64.exe . odpala pycharma, zmienimy inny alias
@@ -38,6 +40,11 @@ git branch -vv - to co wyzej
 git branch --unset-upstream odustawia upstreamy dla brancha
 git remote remove <nazwa_aliasu> - usuwa aliasy do remote repo
 git pull origin main  - sciaga dane z remote repo, np .gitignore przed robieniem git add zeby obciac zle pliki i foldery
+git reset --soft cofa pliki z repo lokalnego, jak juz poszedl commit
+git reset --soft HEAD~1 cofa sie w komitach o 1 krok
+git branch - wyswietla branche
+git checkout <nazwa_pliku> cofa zmiany i modyfikacje, przywraca wersje z repo lokalnego/zdalnego
+git reset --hard cofa zmiany w wszystkich zmodyfikowanych plikach, jak sie nam nie podobaja :)
 
 ******
 ZEBY ODPALIC PYCHARM albo cos innego trzeba zakutalizowac PATH, jak to w kons
