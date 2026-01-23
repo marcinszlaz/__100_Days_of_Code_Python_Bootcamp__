@@ -296,3 +296,4 @@ __marimo__/
 # moje pliki z komendami
 .komendy.txt.swp
 .komendy.txt 
+.env
