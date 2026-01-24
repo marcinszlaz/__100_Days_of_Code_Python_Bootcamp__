@@ -1,7 +1,11 @@
 from sqlalchemy import create_engine, text
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # create an engine
-engine = create_engine('mysql+pymysql://winuser:winuser@10.215.14.30:3306/book_shop')
+engine = create_engine(f'mysql+mysqlconnector://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD)')}@{os.getenv('DB_HOST')}/{os.getenv('DB_NAME')}')
 
 with open(file='book_data.sql',mode='r',encoding='utf-8') as file:
   sql_script = file.read().split(';')

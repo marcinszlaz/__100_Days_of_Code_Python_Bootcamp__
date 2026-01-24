@@ -7,7 +7,7 @@ load_dotenv() # to cos pobiera dane z .env w sposob 'cywilizowany' :)
 
 # polaczenie z  .env
 engine = create_engine(
-  f"mysql+pymysql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}/{os.getenv('DB_NAME')}", echo = True)
+  f"mysql+pymysql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}/{os.getenv('DB_NAME')}", echo = False)
 
 
 def run_sql_file(filename):
@@ -19,7 +19,7 @@ def run_sql_file(filename):
     for q in queries:
       clean_q = q.strip()
       if clean_q:
-        print(f"Wykonuję: {clean_q[:50]}...")
+        # print(f"Wykonuję: {clean_q[:50]}...")
         result = conn.execute(text(clean_q))
 
         # Jeśli to SELECT, wypiszmy wyniki

@@ -78,3 +78,5 @@ df.DataFrame(to_learn).to_csv('states_to_learn.csv')
 
 #screen.mainloop() # it fits more, cos we have loop but program doesn't exit on click
 # screen.exitonclick() # exit on click, that's no good for this program
+
+# missing_states = [state for state in guessed_states if state not in guessed_states]

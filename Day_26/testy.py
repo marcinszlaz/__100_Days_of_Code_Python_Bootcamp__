@@ -1,3 +1,5 @@
+import random
+
 # LIST COMPREHENSION
 
 numbers = [1,2,3]
@@ -20,3 +22,12 @@ name_list = ["Alex","Beth","Caroline","Dave","Eleanor","Freddie"]
 long_cap_names = [name.upper() for name in name_list if len(name) > 5]
 print('long_cap_names:',long_cap_names)
 
+# students_score = {f"{key}":f"{random.randint(1,100)}" for key in name_list}
+students_score = {key:random.randint(1,100) for key in name_list}
+print('wyniki studentow',students_score)
+# passed_students = {key:students_score.get(key) for key in students_score if students_score.get(key) > 60}
+# get() function is equal students_score[key] but much more safer, cos it handles keys without values, returns None
+# passed_students = {key:students_score[key] for key in students_score if students_score[key] >= 60} # this is mine xD
+passed_students = {key:value for (key, value) in students_score.items() if value >= 60}
+
+print('lista studentow ktorzy zdali',passed_students)
