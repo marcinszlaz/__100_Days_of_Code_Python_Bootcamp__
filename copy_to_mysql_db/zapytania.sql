@@ -11,4 +11,5 @@
 -- nieprawda, to CONCAT robi tak ze zle sie wyswietla, LEFT I SUBS to samo
 
 -- SELECT user, host, plugin, authentication_string,password_last_changed,password_expired FROM mysql.user WHERE user = 'winuser';
-SELECT * FROM mysql.user;
+-- SELECT * FROM mysql.user;
+SELECT * FROM books;
