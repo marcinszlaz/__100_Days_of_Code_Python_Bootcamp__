@@ -13,3 +13,4 @@
 -- SELECT user, host, plugin, authentication_string,password_last_changed,password_expired FROM mysql.user WHERE user = 'winuser';
 -- SELECT * FROM mysql.user;
 SELECT * FROM books;
+
