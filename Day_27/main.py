@@ -1,40 +1,41 @@
-import tkinter
-import random
+# from tkinter import * # with this astrix import You are able to type methods/functions directly
+# without tkinter. prefix
 
-# from tkinter import *
+import tkinter
+FONT = ("Arial",12,"bold")
+CONV_RATE = 1.609
 
 # window creation
 window = tkinter.Tk()
-window.title("My First GUI program :-)")
-window.minsize(width = 500, height=300)
+window.title("Mile to Km Converter")
+window.minsize(width = 300, height=150)
+window.config(padx = 10, pady = 10)
+window.config(padx = 20, pady = 20) # pad setting
+
+# entry
+input_content = tkinter.Entry(width = 10)
+input_content.grid(column = 2, row = 2)
+
+# functions block
+def cvrt_m_to_k():
+  """function cvrt_m_to_k converts mile to kilometers"""
+  label2.config(text = f'{(float(input_content.get()) * CONV_RATE):.2f}')
 
 # label creation
-my_label = tkinter.Label(text="I Am a Liquor !", font = ("Arial",12,"bold")) # tworzy label
-my_label.pack(side = "top") # wrzuca label na ekran :) expand=True, "left", "right"
+label1 = tkinter.Label(text="Is equal to", font = FONT) # is equal label
+label1.grid(column=1,row = 3)
 
-my_label["text"] = 'Zupa' # mozna tak zmienic tekst
-# i tak też, funkcja config
-# mozna tak dodawac bo biblioteka jest przepisana z tcl innego jezyka
-# i argumenty w tej clasie sa prawie wszedzie jako *args czyli tuple () z wieloma arg np 1,2,3
-# albo *kwargs czyli keyword arguments i to są z kolei słowniki {} czyli 'x':5,'y':'zupa' itp
-my_label.config(text = 'Jak to jest')
+label2 = tkinter.Label(text = '0', font = FONT) # label with result
+label2.grid(column = 2, row = 3)
 
-slownik = ['Clicking and clicking','Stop clicking me !','maybe you will stop clicking xD', 'And he\'s again doing the same']
-def click_me():
-  # my_label.config(text = f'{random.choice(slownik)}') # opcja randomowych odpowiedzi
-  my_label.config(text = input.get())
+label3 = tkinter.Label(text="Miles", font = FONT) # Miles label
+label3.grid(column = 3, row = 2)
 
-button = tkinter.Button(text='Click me', command = click_me)
-button.pack() # musisz dodawać pack zeby sie pokazalo xD
+label4 = tkinter.Label(text = "Km", font = FONT) # Km label
+label4.grid(column = 3, row = 3)
 
-input = tkinter.Entry(width =10)
-print(input.get()) # to nic tu nie wydrukuje musisz to zrobic funkcja
-my_label.config(text = input.get())
-input.pack()
+# button
+button1 = tkinter.Button(text = 'Calculate',command = cvrt_m_to_k)
+button1.grid(column = 2, row = 4)
 
-# import turtle
-# tim = turtle.Turtle()
-# tim.write("cycki")
-
-
-window.mainloop() # same like in turtle
+window.mainloop() # same like in turtle, looping the window
