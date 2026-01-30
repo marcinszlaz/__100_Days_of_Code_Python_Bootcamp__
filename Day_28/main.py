@@ -5,9 +5,10 @@ import math
 # start 09:50
 # przerwa 12:20
 # powrót 13:00
-# end P28 14:00 
+# end P28 14:00
 # mysql 15:00
-# mysql end 16:30 5h
+# mysql end 16:30
+# mysql 19-21:30 7:30h, 5h mysql/ 2:30 python
 # ---------------------------- CONSTANTS ------------------------------- #
 
 PINK = "#e2979c"
@@ -18,7 +19,7 @@ FONT_NAME = "Courier"
 WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
-MIN = 1
+SEC_MIN = 60
 reps = 0
 timer = None
 text = 'Timer'
@@ -41,9 +42,9 @@ def start_timer():
   global timer_label
   reps += 1
   print(reps)
-  work_sec = MIN * WORK_MIN
-  short_break_sec = MIN * SHORT_BREAK_MIN
-  long_break_sec = MIN * LONG_BREAK_MIN
+  work_sec = SEC_MIN * WORK_MIN
+  short_break_sec = SEC_MIN * SHORT_BREAK_MIN
+  long_break_sec = SEC_MIN * LONG_BREAK_MIN
   # while - nie da sie :) mrozi program trzeba uzywac windows.after / after_cancel
   if reps in [1,3,5,7]:
     count_down(work_sec)
