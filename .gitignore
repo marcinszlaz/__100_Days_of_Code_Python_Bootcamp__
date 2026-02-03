@@ -297,3 +297,4 @@ __marimo__/
 .komendy.txt.swp
 .komendy.txt 
 .env
+*.swp
