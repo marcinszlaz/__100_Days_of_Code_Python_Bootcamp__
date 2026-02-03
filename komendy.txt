@@ -48,5 +48,8 @@ git reset --hard cofa zmiany w wszystkich zmodyfikowanych plikach, jak sie nam n
 
 ******
 ZEBY ODPALIC PYCHARM albo cos innego trzeba zakutalizowac PATH, jak to w kons
+***************** LINUX UBUNTU *******************
+po zalogowaniu na gh auth login tokenem, nie mozna pushowac bez podania loginu i hasla, zeby to naprawic uzyj komendy:
+gh auth setup-git, wtedy autoryzacja nastapi z tokena nie z konta, musze tak robic bo na github zalogowany jestem kontem gmaila nie loginem/haslem
 
 
