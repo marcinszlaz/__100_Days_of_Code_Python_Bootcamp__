@@ -1,0 +1,154 @@
+-u <username> -p          -- logowanie do mysql, -p haslo
+mysql --login-path=<username>   -- inna opcja logowania, wymaga skonfigurowania sciezki w pliku, jakims
+CREATE DATABASE <db_name>       -- tworzenie db
+USE DATABASE <db_name>          -- wybieramy db
+DROP DATABASE <db_name>         -- usuwamy db
+CREATE TABLE (kol1 INT, kol2 VARCHAR,...) -- tworzenie tabeli + kolumny
+DROP TABLE, ALTER TABLE COLUMN
+DESC <tb_name>                  -- opisuje kolumny tabeli
+/home/marcin/praca/sql
+SHOW COLUMNS FROM cats          -- pokazuje kolumny z tabeli cats
+DROP TABLE <tb_name>            -- dropi tabele z bazy
+ALTER TABLE Cats MODIFY kol1 INT NOT NULL;
+ALTER TABLE Cats CHANGE kol1 nowa_nazwa_kol1 ... ;
+UPDATE <tabela> SET <kolumna>='..' WHERE <kolumna>='..'
+DESC information_schema.TABLES; opis bazy baz xD
+\T ./fajl.txt logowanie do fajl.txt \t wylaczenie logowania
+DELETE FROM cat2 WHERE age > 3; usun z kota gdzie wiek > 3
+SELECT CONCAT(kol1,kol2,'!!!','_') moszna ? moszna ! xD
+CONCAT_WS(' <sep> ', kol1, kol2) ten 'sep' musi byc pierwszy, dobra opcja
+SUBSTRING('HELLO WORLD',1,4); hell xD
+REPLACE('text','x','X') zamiania iksy
+REVERSE('chicken nuggets') odwraca kolejnosc
+ENGTH() zwraca dlugosc ALE w bajtach, przy standarowych ok ale przy dziwnych wyniki moga byc nieprzewidywalne
+CHAR_LENGTH() zwraca ilosc znaczkow xD
+UPPER() / LOWER() zmienia wielkosc literek
+UCASE() LCASE() to samo
+INSERT('Hello Bobby',6,0,' There') dobre, wynik to Hello There Bobby, 6 to znak od ktorego ma wstawic a 0 to ilosc znakow ktore ma 'zjesc' po nim
+LEFT('omgi',3) wynik omg bierze od lewej ilosc
+RIGHT('omgi',1) wynik i
+REPEAT('Ha',3) wynik HaHaHa xD
+TRIM('  obcinka  ') obcinka
+TRIM(LEADING 'o' FROM 'obcinka'); bcinka
+TRIM(TRAILING 'a' FROM 'obcinka'); obcink
+TRIM(BOTH 'o' FROM 'obcinkao'); bcinka
+DISTINCT to nie funkcja, slowo klucz, wybiera unikaty
+ORDER BY <kol_name> albo <kol_number> xD ASC domyslnie DESC niedomyslnie
+LIMIT 5,5 to samo co LIMIT 5 OFFSET 5 ale dziala tylko na mysql a offset
+to to standard golnykosmiczny xD
+WHERE <cos> LIKE '%.zupa' regex w LIKE, . jeden znak jakikolwiek, % 0 lub iles znakow jakichkolwiek, ? jeden znak lub wgl zadnego znaka xD
+_ dokladnie jeden znak, jak chcesz znalezc znaka specjalnego xD to uzywasz \% \_ itp, czyli po prostu escape mark, sign czy tam cos takiego
+SELECT COUNT(*) liczy rowy
+SELECT COUNT() GROUP BY
+MIN / MAX funkcje ktore same sie tlumacza :)
+zeby ogarnac kilka kolumn z min max to musisz robic subquerry
+SUM() sumuje, dobre z GROUP BY, group by nie zawsze oznacza uzycie funkcji agregujacej !
+AVG() average
+INT, CHAR, VARCHAR, TINY/SMALL/MEDIUM/BIG INT, DECIMAL(5,3) czyli 22.555
+dluzsze obetnie, krotsze wywali blad
+funkcje czasu
+SELECT NOW() datestamp z teraz
+SELECT CURRENT_DATE() aktualna data moze byc bez ()
+SELECT CURRENT_TIME to samo ale czas
+SELECT CURRENT_TIMESTAMP() pobiera aktualny tajmstamp moze byc bez ()
+ADD COLUMN czas DATE DEFAULT (NOW()) automatyczny tajmstamp w kolumnie
+DAY(<data>) format daty 2000-12-12
+DAYOFWEEK(), DAYOFYEAR(), MONTHNAME, DAYNAME()
+HOUR(), MINUTE(), SECOND()
+DATE_FORMAT(date,format) %a skrocony dzien, %b miesiac, %h godzina i inne, patrz w dokumentacji
+updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP - dobre, zmienia znacznik czasu tylko w razie update row'a
+OPERATORY !
+= , != , NOT LIKE , > , < , > , >= , <= , 
+&& logical AND - 1 AND 1 = 1 1 AND 0 = 0 0 AND 0 = 0
+OR | LOGICAL OR,
+BETWEEN
+CAST(expr AS type ) albo CONVERT(expr,type) konwersja, rzutowanie typu
+NOT IN ('zzz','zzsy','yy') albo IN ()
+% modulo, wiadomo, mozna sprawdzic nieparzyste parzyste numery
+nie wiedzialem, ze modulo wystepuje w SQL
+CASE STATEMENTS :) tez tego nie znalem, chyba
+CASE WHEN cos <warunek> THEN '<text>' ELSE '<text>' END AS <naz_kol>
+mozna kilka when then zrobic ale koniec musi byc END AS samo as wywala blad, TO JEST BARDZO DOBRE :)
+IS NULL , IS NOT NULL
+************** CONSTRAINTSY **************
+UNIQUE dodajesz to do constraint columny i wartosc nie moze sie zdublowac, primary key jest domyslnie unique, np telefon itp
+age INT CHECK(age > 18) prosty warunek w kolumnie, nie wprowadzisz mniej niz 19
+age INT, CONSTRAINT age_over_18 CHECK (age > 18) nazywany constraint
+ALTER TABLE ADD COLUMN / DROP COLUMN / RENAME / REMOVE
+RENAME TABLE zupa TO kupa
+ALTER TABLE zupa RENAME kupa
+ALTER TABLE <name> MODIFY COLUMN <kol> modyfikacje
+ALTER TABLE <name> CHANGE <name> <new_name> modyfikacje
+SHOW CREATE TABLE <name> - pelne show stworzenia tablicy xd
+IFNULL(x,<wartosc) np ifnull(sum(kwota),0) zakladajac ze kwota null, wpisze zero w row
+SELECT * FROM <tab> INNER/LEFT/RIGHT JOIN <tab2> USINT(klucz) albo <tab1>.klucz = <tab2>.klucz;
+jak probojesz usunac row ktory jest skorelowany z rowami w innej tabeli,prim key w jednej jest foreign key w drugie, to nie mozesz, chyba ze w definicji constraint kolumny dodasz za foreign key
+FOREIGN KEY (<kol>) REFERENCES tab(kol) ON DELETE CASCADE, wtedy usuwajac cos z prim wywalasz rowy w innej tablei skorelowane jako foreign, troche to niebezpieczne
+SELECT * FROM information_schema. TABLES / COLUMNS / USER_PRIVILEGES / KEY_COLUMN_USAGE / STATISTICS
+COALESCE(a,b,c,'default') bardzo fajna funkcja, cos jak IFNULL, tylko ifnull zwraca cos jak jest null a COALESCE przyjmuje n argumentow i jak kazdy jest null to zwraca 'domyslne'
+************ PETLA IF XD *******************
+IF(COUNT(rating) > 0 ,'ACTIVE','INACTIVE') AS status if warunek, wynik tak, wynik nie xD proste
+SELECT ROW_NUMBER() OVER(ORDER BY <liczona_kolumna>) AS licznik... bardzo dobre, robi licznik do kwerendy
+CREATE VIEW <nazwa_vew> AS kwerenda selct itp - zajebista komenda fajna :)
+SHOW CREATE VIEW full_reviews; - podglad kwerendy w tabeli typu view
+ALTER TABLE <table_name> COMMENT 'komentarz taktyczny na 7 znakow'
+ALTER TABLE <table_name> MODIFY COLUMN <kol1> <typ> COMMENT 'taktyczny na 5 znakow';
+SELECT table_name, table_comment FROM information_schema.tables WHERE table_schema = <nazwa_bazy_danych> albo table_name = <nazwa_tabeli>;
+SELECT * FROM information_schema.columns:
+CREATE OR REPLACE VIEW <view_name> AS kwerenda 
+SELECT title AS tytuł, ROUND(AVG(rating),2) AS `średnia ocen`,COUNT(rating) AS `ilość ocen` FROM full_reviews GROUP BY title HAVING COUNT(rating) >= 1; - HAVING filtruje po cechach grup, WHERE po cechach pojedynczego rekordu
+GROUP BY title WITH ROLLUP - opcja rollup pozwala zrobic dodatkowy row z usrednionym wynikiem funkcji agreujacej, np AVG, bez rollup mozesz tez to zrobic ale jako pojedynczy wynik tabela z 1 row
+np SELECT AVG(rating) FROM series; a tak SELECT AVG(rating), title FROM series GROUP BY title WITH ROLLUP; masz average do title i jedne row na dole z avg dla wszystkich rating
+IF(GROUPING(genre),'srednia za rok',genre) AS gatunek przy grupowaniu wielu rzeczy, np tytul, rating, rok produkcji, if(groupping(kol),'nazwa jak kol jest null',kol) as nazwa kol, bo with rollup zostawia null w row'ach i to zle wyglada
+************* TRYBY PRACY MYSQL ***********************
+@@GLOBAL.sql_mode; - wyswietla configuracje
+SELECT @@LOCAL.sql_mode;
+SET SESION sql_mode ='ustawionka';
+SELECT @@SESSION.sql_mode tez wyswietla
+SET SESSION sql_mode = '' nie rob tego xD, ale jak juz to zrobisz to...
+SET SESSION sql_mode = @@GLOBA.sql_mode albo
+SET SESSION sql_mode = DEFAULT; xD
+********* funkcje window *******
+zamiast GROUP BY na koncu, to za np AVG(rating) OVER(PARTITION BY <real_kol_name) AS rev_rat 
+samo OVER() powoduje wyswietlenie wartosci z funkcji agregujace np avg() przy kadym row, nie tylko zbiorowo za grupe
+FORMAT(SUM(salary) OVER(PARTITION BY department ORDER BY salary DESC),2) bardzo dobre, over(partition by dep) samo liczy sume salary za caly department i wyswietla w kazdym row ta sume z ORDER BY salary desc dodaje po kolei od 1 skladnika do ostatniego albo 'odejmuje' od calosci po kazdym skladniku
+RANK() robi ranking, to tez funkcja window
+RANK() OVER(ORDER BY salary ASC)
+*************** TRIGGERS *******************
+DELIMITER $$ -- USTAWIA DELIMITER NA $$
+CREATE TRIGGER nazwa_triggera BEFORE/AFTER INSERT/UPDATE/DELTE ON nazwa_tabeli
+FOR EACH ROW BEGIN IF NEW.<nazwa_kol> < 18 THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'MUST BE THE KUTAS'; END IF; END;
+$$
+DELIMITER ; -- ODSTAWIA NA nic xD
+SHOW TRIGGERS - pokazuje triggersony
+DELIMITER %%
+CREATE TRIGGER cycki BEFORE INSERT ON follows
+FOR EACH ROW
+BEGIN
+IF NEW.follower_id = NEW.followee_id
+THEN SIGNAL SQLSTATE '45000'
+SET MESSAGE_TEXT='YOU CAN NOT DO THAT BOY';
+END IF;
+END;
+%%
+DELIMITER ;
+
+DELIMITER ##
+CREATE TRIGGER capture_unfollows AFTER DELETE ON unfollows FOR EACH ROW
+BEGIN
+INSERT INTO unfollows(follower_id,followee_id) VALUES(OLD.follower_id,OLD.followee_id);
+END;
+##
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+
+
