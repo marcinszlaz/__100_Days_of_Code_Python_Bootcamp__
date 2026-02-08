@@ -152,6 +152,6 @@ canvas = Canvas(width=200,height=224, bg=PANTEON, highlightthickness=0)
 tomato_img = PhotoImage(file='logo.png')
 canvas.create_image(100,112,image=tomato_img)
 canvas.grid(column = 1, row = 0)
-
+# canvas.create_text(100,100,text='lubie cycki', font=("Ariel",40,"italic"))
 
 window.mainloop()
