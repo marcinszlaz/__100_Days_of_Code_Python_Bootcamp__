@@ -108,7 +108,6 @@ def find_password():
         print('Searched phrase not found')
         tk.messagebox.showinfo(title = 'Key not found', message = 'Searched phrase not found', icon = 'info')
 
-
 # ---------------------------- UI SETUP ------------------------------- #
 window = tk.Tk()
 window.title('Password Generator')
