@@ -1,3 +1,4 @@
+#
 import requests, time
 from datetime import datetime as dt
 from dotenv import load_dotenv
@@ -20,8 +21,7 @@ parameters = {
     "lat": MY_LAT,
     "lng": MY_LONG,
     "formatted": 0,
-    "tzid": 'Europe/Warsaw'
-}
+    "tzid": 'Europe/Warsaw'}
 
 while True:
     # ISS position fetching (getting)
@@ -50,7 +50,6 @@ while True:
     else:
         pass
     time.sleep(60)
-
 
 #If the ISS is close to my current position
 # and it is currently dark
