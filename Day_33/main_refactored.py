@@ -1,12 +1,19 @@
-# 16 wrzuć jako docker, stwórz do tego image, bez docker file, sam gotowy image do odpalenia na życzenie
+# deployed  as a docker container on ubuntu server (pi rasp4)
+# own .env file creation needed
+# MY_EMAIL=xxx@gmail.com
+# MY_EMAIL2=yyy@gmail.com
+# MY_EMAIL3=zzz@gmail.com
+# MY_PASSWORD=xxxx xxxx xxxx xxxx from account management / app passwords
+# MY_HOST=smtp.gmail.com
+# MY_PORT=587
 
 import requests, time, pathlib
 from datetime import datetime as dt
 from dotenv import load_dotenv
 import smtplib,os
 
-# MY_LAT=53.710979 # Your latitude
-# MY_LONG=16.691114 # Your longitude
+MY_LAT=53.710979 # Your latitude
+MY_LONG=16.691114 # Your longitude
 TIME_OUT=10
 D=5.0
 
@@ -80,7 +87,7 @@ def is_dark_now():
             return False
 
 # main loop
-is_mail_sended = False
+is_mail_sended = False # for only one mail purpose
 while True:
     if is_dark_now() and is_iss_here():
         if not is_mail_sended: # equivalent of mail_sended == False
