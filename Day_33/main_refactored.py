@@ -11,6 +11,7 @@ import requests, time, pathlib
 from datetime import datetime as dt
 from dotenv import load_dotenv
 import smtplib,os
+import socket
 
 MY_LAT=53.710979 # Your latitude
 MY_LONG=16.691114 # Your longitude
@@ -25,12 +26,19 @@ load_dotenv(encoding='utf-8',dotenv_path=dot_path)
 
 # sending mail to recipent(s)
 def send_email():
-    with smtplib.SMTP(host=os.getenv('MY_HOST'),port=os.getenv('MY_PORT')) as connect:
-        connect.starttls()
-        connect.login(user=os.getenv('MY_EMAIL'),password=os.getenv('MY_PASSWORD'))
-        connect.sendmail(from_addr=os.getenv('MY_EMAIL'),to_addrs=[os.getenv('MY_EMAIL2')],
-        msg='Subject:ISS is comming!\n\nInternational Space Station is around 300km from you\nGo outside and LOOK UP! xD')
-        print('[INFO]Email sended !')
+    try:
+        with smtplib.SMTP(host=os.getenv('MY_HOST'),port=os.getenv('MY_PORT')) as connect:
+            time_now = f"{dt.now().strftime('%H:%M:$S')}"
+            connect.starttls()
+            connect.login(user=os.getenv('MY_EMAIL'),password=os.getenv('MY_PASSWORD'))
+            connect.sendmail(from_addr=os.getenv('MY_EMAIL'),to_addrs=[os.getenv('MY_EMAIL2')],
+            msg='Subject:ISS is comming!\n\nInternational Space Station is around 300km from you\nGo outside and LOOK UP! xD')
+    except (smtplib.SMTPException, OSError, socket.error) as e:
+        print(f'{time_now} [ERROR] We have an error: {e}')
+    except Exception as e:
+        print(f'{time_now} [ERROR] Something other went wrong: {e}')
+    else:
+        print(f'[INFO]Email sended !')
 
 # ISS position fetching
 def is_iss_here():

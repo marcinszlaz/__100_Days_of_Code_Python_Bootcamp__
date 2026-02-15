@@ -41,8 +41,6 @@ def remove_card():
   data.to_csv('data/words_to_learn.csv')
   next_card()
 
-
-
 # window
 window = tk.Tk()
 window.title(string='Flashy')
