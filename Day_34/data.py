@@ -6,7 +6,9 @@ params = {
     "amount":f'{r.randint(10,20)}',
     "difficulty":f"{r.choice(['easy','medium','hard'])}",
     "type":"boolean",
-    "encode":"" }
+    "encode":"",
+    "category":18
+}
 
 try:
     with requests.get(url='https://opentdb.com/api.php', timeout=10, params=params) as connection:

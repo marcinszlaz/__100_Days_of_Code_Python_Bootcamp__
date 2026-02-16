@@ -11,12 +11,8 @@ for question in question_data:
     new_question = Question(question_text, question_answer)
     question_bank.append(new_question)
 
-
 quiz = QuizBrain(question_bank)
-ui = QuizInterface()
-
-print('quiz.q_text',quiz.q_text)
-print('quiz.current_question',quiz.current_question)
+ui = QuizInterface(quiz)
 
 # while quiz.still_has_questions():
 #     quiz.next_question()
