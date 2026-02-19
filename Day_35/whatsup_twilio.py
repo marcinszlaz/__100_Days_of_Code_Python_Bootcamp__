@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from twilio.rest import Client
 import os
 from dotenv import load_dotenv

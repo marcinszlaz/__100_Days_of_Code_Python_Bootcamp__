@@ -1,6 +1,6 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir --break-system-packages -r requirements.txt 
-COPY weather_tracker.py .
+COPY weather_tracker.py sms_twilio.py whatsup_twilio.py data_fetching.py ./
 CMD ["python", "-u", "weather_tracker.py"]

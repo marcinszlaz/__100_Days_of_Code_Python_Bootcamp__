@@ -1,4 +1,5 @@
-# module scrip1 was built for fetching data from API's sites
+#!/usr/bin/env python3
+# module data_fetching was built for fetching data from API's sites
 
 import requests,os,pathlib,sys
 from dotenv import load_dotenv
@@ -43,13 +44,13 @@ def saving_data(weather_c, weather_d, forecast):
   weather_data = weather_d
   forecast_data = forecast
   # Saving forecast from my location into files jsondata and jsondata1
-  with open(f'{pathlib.Path.cwd() / 'today_weather.json'}',mode='w') as file:
+  with open(f"{pathlib.Path.cwd() / 'today_weather.json'}",mode='w') as file:
     file.write(weather_data_cleaned) # file.write() expects str not <json_obj> !
-  with open(f'{pathlib.Path.cwd() / 'today_weather_1.json'}',mode='w') as file:
+  with open(f"{pathlib.Path.cwd() / 'today_weather_1.json'}",mode='w') as file:
     json.dump(weather_data,fp=file, indent=2, sort_keys=True) # dump expects <json_object> not string !
 
   # Saving five days forecast into file five_days_forecast.json
-  with open(f'{pathlib.Path.cwd() / 'five_days_forecast.json'}',mode='w') as file:
+  with open(f"{pathlib.Path.cwd() / 'five_days_forecast.json'}",mode='w') as file:
     json.dump(forecast_data,fp=file, indent=2, sort_keys=True) # dump expects <json_object> not string !
 
 if __name__ == '__main__': # if you put something here it can't execute in main.py silently and directly too
