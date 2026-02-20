@@ -54,4 +54,7 @@ gh auth setup-git, wtedy autoryzacja nastapi z tokena nie z konta, musze tak rob
 ********* CRLF / LF ******************
 git config --global core.autocrlf true git od razu zmienia LF na CRLF
 LF - linuxowe konczenie lini \n CRLF - windowsowe konczenie lini \r\n
+git diff origin/main - sprawdza roznice miedzy lokalnym repo a zdalnym
+git fetch --all feczuje all
+git reset --hard origin/main - wywala lokal wsadza remote do local
 
