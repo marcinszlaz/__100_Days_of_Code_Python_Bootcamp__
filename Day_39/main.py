@@ -17,18 +17,16 @@ from requests_oauthlib import OAuth2Session
 import json
 
 import flight_data as fd
-import flight_search
+import flight_search as fs
+import data_manager as dm
 
 # fetching token
 # amadeus has oauth2 type of authorization
 # https://requests-oauthlib.readthedocs.io/en/latest/oauth2_workflow.html#third-recommended-define-automatic-token-refresh-and-update  --> url with documentation
 
-token = fd.FlightData()
-f_dest = flight_search.FlightSearch(token.token)
-f_dest.get_fl_of_search()
-
-
-
-
-
-
+token = fd.FlightData() # validating and getting token
+f_dest = fs.FlightSearch(token.token)
+# f_dest.get_fl_of_search()
+f_s = dm.DataManager() # constructor gets data from google sheet
+# f_s.put_data_series(f_dest.get_iata_codes(city_list=f_s.get_cities())) # updating iata codes on google sheet
+f_dest.get_cheapest_flights()

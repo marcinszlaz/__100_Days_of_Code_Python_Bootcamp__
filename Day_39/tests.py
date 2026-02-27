@@ -1,20 +1,33 @@
-import os, pathlib
+import os, pathlib, json
 import datetime as dt
 from zoneinfo import ZoneInfo
 
-file_path = pathlib.Path.cwd() / 'auth_data.json'
-is_file_exist = pathlib.Path.is_file(pathlib.Path.cwd() / 'auth_data.json')
-file_mod_time_unix = os.path.getmtime(file_path)
-file_mod_time_iso = dt.datetime.fromtimestamp(timestamp=file_mod_time_unix, tz=ZoneInfo('Europe/Warsaw'))
-time_now = dt.datetime.now(tz=ZoneInfo('Europe/Warsaw'))
-if is_file_exist:
-  print('token file exists')
-  if (time_now-file_mod_time_iso)>dt.timedelta(minutes=29):
-    print('token expired, generate new one')
-  else:
-    print('token is valid, return token')
-else:
-  print('file doesn\'t exist, generate new file')
+with open('iata_data.json',mode='r') as f:
+  js = json.load(fp=f)
+  print(js['cities'][0][0]['iataCode'])
+
+# test_dict = {"zupa":"kalafiorowa","obiad":"obiadowy"}
+# print('get',test_dict.get("zupa"))
+# print('get',type(test_dict.get("zupa")))
+# print('keys',test_dict.keys())
+# print('keys',type(test_dict.keys()))
+# print('values',test_dict.values())
+# print('values',type(test_dict.values()))
+# print('items',test_dict.items())
+# print('items',type(test_dict.items()))
+# file_path = pathlib.Path.cwd() / 'auth_data.json'
+# is_file_exist = pathlib.Path.is_file(pathlib.Path.cwd() / 'auth_data.json')
+# file_mod_time_unix = os.path.getmtime(file_path)
+# file_mod_time_iso = dt.datetime.fromtimestamp(timestamp=file_mod_time_unix, tz=ZoneInfo('Europe/Warsaw'))
+# time_now = dt.datetime.now(tz=ZoneInfo('Europe/Warsaw'))
+# if is_file_exist:
+#   print('token file exists')
+#   if (time_now-file_mod_time_iso)>dt.timedelta(minutes=29):
+#     print('token expired, generate new one')
+#   else:
+#     print('token is valid, return token')
+# else:
+#   print('file doesn\'t exist, generate new file')
 
 # print('time_now',time_now,'file_mod_time_iso',file_mod_time_iso)
 # print('time_now',type(time_now),'file_mod_time_iso',type(file_mod_time_iso))

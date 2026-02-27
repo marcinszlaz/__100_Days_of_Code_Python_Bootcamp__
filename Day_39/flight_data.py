@@ -1,7 +1,7 @@
 import pathlib,os
 from dotenv import load_dotenv
 from oauthlib.oauth2 import BackendApplicationClient
-from pandas.io.formats.format import return_docstring
+from pandas.io.formats.format import return_docstring #hmm, to później chyba xD
 from requests_oauthlib import OAuth2Session
 import json, datetime as dt
 from zoneinfo import ZoneInfo
