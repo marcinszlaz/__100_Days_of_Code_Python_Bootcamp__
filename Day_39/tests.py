@@ -1,11 +1,92 @@
-import os, pathlib, json
-import datetime as dt
-from zoneinfo import ZoneInfo
 
-with open('iata_data.json',mode='r') as f:
-  js = json.load(fp=f)
-  print(js['cities'][0][0]['iataCode'])
+  # TODO to gówno zacznie działać, dzisiaj xD, no dobra jutro xD
 
+import json
+
+with open('ch_f_v4.json',mode='r') as f:
+  data = json.load(fp=f)
+  city = data[0]['airports'][0]['arrival'][0]['airport']['name']
+  price = data[0]['other_flights'][0]['price']
+  dep_airport = data[0]['other_flights'][0]['flights'][0]['departure_airport']['name']
+  dep_code = data[0]['other_flights'][0]['flights'][0]['departure_airport']['id']
+  departure_date = data[0]['other_flights'][0]['flights'][0]['departure_airport']['time']
+  arrival_airport = data[0]['other_flights'][0]['flights'][0]['arrival_airport']['name']
+  arr_code = data[0]['other_flights'][0]['flights'][0]['arrival_airport']['id']
+  arrival_time = data[0]['other_flights'][0]['flights'][0]['arrival_airport']['time']
+
+  dictionary = {
+    f'{city}':{
+      "price":f'{price}',
+      "depAirport":f'{dep_airport}',
+      "depCode":f'{dep_code}',
+      "depDate":f'{departure_date}',
+      "arrAirport":f'{arrival_airport}',
+      "arrCode":f'{arr_code}',
+      "arrTime":f'{arrival_time}'
+    }
+  }
+print(dictionary)
+
+
+
+  # plik = f.read()
+  # print(plik)
+
+# lista = ['zupa','kupa','wiaderko','cycki']
+# print(lista)
+# print(",".join(lista))
+# print(type(",".join(lista)))
+
+# s = "/m/04jpl"
+# print(s)
+# slownik = {"key1":s}
+# print(f'\"{s}\"')
+
+# import json
+# give_me_the_disc = []
+# with open('kgmid_list.json', mode='r') as f:
+#   file = json.load(fp=f)
+#   # print(file[0]['suggestions'][0]['airports'])
+#   # for data in file[0]['suggestions'][0]['airports']:
+#   #   print(data)
+#   for data in file:
+#     print(data['suggestions'][0]['airports'][0]['city_id'])
+#   give_me_the_disc += [data['suggestions'][0]['airports'][0]['city_id'] for data in file]
+#
+# print(give_me_the_disc) # ! xD
+
+# import os, pathlib, json
+# import datetime as dt
+# from zoneinfo import ZoneInfo
+# from serpapi import GoogleSearch
+# from dotenv import load_dotenv
+# import json
+#
+# load_dotenv()
+#
+# params = {
+#   "engine": "google_flights",
+#   "departure_id": "CDG",
+#   "arrival_id": "AUS",
+#   "currency": "USD",
+#   "type": "2",
+#   "outbound_date": "2026-03-03",
+#   "api_key": f"{os.getenv('SERP_API')}"
+# }
+#
+# search = GoogleSearch(params)
+# results = search.get_dict()
+# with open(file='cycki.json',mode='w') as cycki:
+#   json.dump(obj=results,fp=cycki,indent=2,sort_keys=True)
+# best_flights = results["best_flights"]
+# print(best_flights)
+
+
+# for entry in price_map:
+#     print(f"Data: {entry['date']}, Cena: {entry['price']} PLN")
+# with open('iata_data.json',mode='r') as f:
+#   js = json.load(fp=f)
+#   print(js['cities'][0][0]['iataCode'])
 # test_dict = {"zupa":"kalafiorowa","obiad":"obiadowy"}
 # print('get',test_dict.get("zupa"))
 # print('get',type(test_dict.get("zupa")))
