@@ -19,16 +19,18 @@ f_s = dm.DataManager() # constructor gets data from google sheet
 # f_dest.get_cheapest_flights_v4(data_list=list_)
 # print(f_s.make_a_dict())
 
-fd = f_s.make_flights_dict()
-msg = (f'Low price alert ! Only €{fd['Paris']['price']} to fly from {fd['Paris']['depCode']}'
- f' to {fd['Paris']['arrCode']} on {fd['Paris']['depDate']}')
+f_dest.get_fl_of_search()
 
-bargain_prices = [value for value in f_s.make_a_dict().values()]
-actual_prices = [int(value['price']) for value in f_s.make_flights_dict().values()]
-
-for _ in range(len(actual_prices)):
-  if actual_prices[_] < bargain_prices[_]:
-    print('bargain !')
-    sen_msg.send_sms(msg=msg)
-  else:
-    print('maybe next time')
+# fd = f_s.make_flights_dict()
+# msg = (f'Low price alert ! Only €{fd['Paris']['price']} to fly from {fd['Paris']['depCode']}'
+#  f' to {fd['Paris']['arrCode']} on {fd['Paris']['depDate']}')
+#
+# bargain_prices = [value for value in f_s.make_a_dict().values()]
+# actual_prices = [int(value['price']) for value in f_s.make_flights_dict().values()]
+#
+# for _ in range(len(actual_prices)):
+#   if actual_prices[_] < bargain_prices[_]:
+#     print('bargain !')
+#     sen_msg.send_sms(msg=msg)
+#   else:
+#     print('maybe next time')

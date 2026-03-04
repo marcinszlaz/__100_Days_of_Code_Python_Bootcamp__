@@ -1,0 +1,20 @@
+ul {
+    list-style-type: "✈ "; /* Każdy punkt listy to teraz samolocik! */
+    padding-left: 20px;
+}
+
+li:hover {
+    color: #e67e22; /* Pomarańczowy kolor, gdy najedziesz myszką - w Excelu o tym pomarzysz! */
+    cursor: pointer;
+}
+.kwadraty {
+    list-style-type: square;
+}
+
+ul.kwadraty {
+    list-style-type: square; /* Kwadraciki */
+}
+
+ul.gwiazdki {
+    list-style-type: "★ "; /* Prawdziwe gwiazdki (Unicode) */
+}

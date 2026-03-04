@@ -78,9 +78,12 @@ class FlightSearch:
     body = {
       "originLocationCode": "WAW",
       "destinationLocationCode": "PAR",
+      "departureDate":"2026-03-02",
+      "returnDate":"2026-03-30",
+      "nonStop":"true",
+      "currencyCode":"GBP",
       "adults": 1,
-      "departureDate":"2026-03-20",
-      "max":1,
+      "max":5,
     }
     response = requests.get(os.getenv('FLIGHT_OFFER_SEARCH_URL'), headers=headers, params=body)
     r_j = response.json()
