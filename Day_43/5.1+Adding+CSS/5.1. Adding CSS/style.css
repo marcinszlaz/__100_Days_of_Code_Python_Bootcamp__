@@ -1,0 +1,11 @@
+h1 {
+    color: green
+    /*transition: 0.5*/
+}
+
+a{
+color: red;
+}
+
+/* :hover pseudoclass after selector, it changes
+tag behavior when cursor is on it */

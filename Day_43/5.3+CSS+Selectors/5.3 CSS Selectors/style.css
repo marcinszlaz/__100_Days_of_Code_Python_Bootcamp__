@@ -1,3 +1,4 @@
+/*  element selector ol */
 ol {
   margin-left: -40px;
   margin-top: -20px;
@@ -5,3 +6,60 @@ ol {
 }
 
 /* Write your CSS below, don't change the rules above. */
+
+p
+{
+    color: red;
+}
+
+.note
+{
+    font-size: 20px;
+}
+
+#id-selector-demo
+{
+    color: green;
+}
+
+li[value="4"]
+{
+    color: blue;
+}
+
+*
+{
+    text-align: center;
+}
+
+
+/* ****** MY COMMENTS xD
+
+/* class selector .red-heading , _ or camelCase not allowed use-> <h1 class="red-heading"
+
+.red-heading
+{
+    color: red;
+}
+
+/* id selector #main, it should be only applied to one element on site, id selector must be unique use->
+ <h1 id="main"
+
+#main
+{
+    color: brown;
+}
+
+/* impact at all paragraphs with attribute draggable
+/* you can type it in that way to p[draggable="true"]
+
+p[draggable]
+{
+color: red
+}
+
+/* astrix selector `*` it impact at all :)
+* {
+color: red
+}
+   ******* END OF MY COMMENTS xD */

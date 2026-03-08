@@ -1,0 +1,42 @@
+img {
+    margin: 0px;
+    text-align: center;
+}
+
+div {
+    margin-top: 20pt;
+    padding: 0px;
+    text-align: center;
+
+}
+
+html {
+    color: white;
+    background-color: black;
+    text-align: center;
+}
+h1 {
+     text-transform: uppercase;
+     font-family: "Libre Baskerville", serif;
+     font-size: 2rem;
+     text-align: center;
+}
+
+h3 {
+     font-family: "Libre Baskerville", serif;
+     font-size: 1.5rem;
+     text-align: center;
+
+}
+
+#image {
+    margin-left: 25%;
+    height: 573px;
+    width: 880px;
+    border: solid white;
+    border-width: 10px;
+}
+
+#main {
+
+}
