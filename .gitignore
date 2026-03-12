@@ -300,3 +300,4 @@ __marimo__/
 *.whl
 *.netrc
 *.json
+token.txt

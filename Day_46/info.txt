@@ -1,0 +1,8 @@
+# from -> https://developer.spotify.com/documentation/web-api/references/changes/february-2026:
+
+1) [ADDED] Add Items to Playlist (POST /playlists/{id}/items) – Add one or more items to a user's playlist.
+2) [REMOVED] Create Playlist for user (POST /users/{user_id}/playlists) - Create a playlist for a Spotify user.
+Use POST /me/playlists instead
+3) [REMOVED] Get User's Playlists (GET /users/{id}/playlists) – Get a list of the playlists owned or followed by a Spotify user.
+4)Change Playlist Details (PUT /playlists/{id}) – Updates a playlist's name, description, or visibility.
+5) Create Playlist (POST /me/playlists) – Creates a new playlist for logged in users.
