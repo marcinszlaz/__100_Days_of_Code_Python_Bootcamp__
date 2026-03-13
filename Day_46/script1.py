@@ -1,5 +1,5 @@
 import datetime as dt
-import requests
+import requests,time
 from bs4 import BeautifulSoup
 import spotipy,json
 from spotipy.oauth2 import SpotifyOAuth
@@ -8,7 +8,7 @@ import pathlib,os
 
 # I commented this below, because site doesn't allow anymore checking hot 100 hits
 # from the past, this option is only available for premium members
-# NOPE, WE CAN STEAL IT ! xD (change web url add date at the end)
+# NOPE, WE CAN STEAL IT ! xD (what we need is to change web url add date at the end)
 
 url_addon=None
 date=""
@@ -18,7 +18,7 @@ artist_names=[]
 path= pathlib.Path.cwd() / '.env'
 load_dotenv(dotenv_path=path)
 
-# with authorization
+# Spotify authorization with Oauth2.0 only
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.getenv("SPOTIFY_CLIENT_ID"), client_secret=os.getenv("SPOTIFY_CLIENT_SECRET"), redirect_uri=os.getenv("SPOTIFY_REDIRECT_URL"), scope="playlist-modify-public", cache_path="token.txt"))
 # cache_path=".cache" creates .cache file with tokens
 # without this option library does it anyway itself
@@ -43,9 +43,10 @@ def get_date():
       try_again = False
 
 def scrapper():
+  """scrapping 100 top hits from https://www.billboard.com/charts/hot-100/ """
   global song_names
   global artist_names
-  # you're web scrapping, so it will be better when web server thinks you're human not bot, that's why we use our web browser header
+  # you're web scrapping, so it will be better when web server thinks you're human not bot, that's why we're using our web browser header
   header = {
     "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
   }
@@ -56,7 +57,7 @@ def scrapper():
   soup = BeautifulSoup(markup=response.text, features="html.parser")
   song_names_spans = soup.select("li ul li h3")
   song_names = [song.getText().strip() for song in song_names_spans]
-  artist_name_spans = soup.select("li ul li span.c-label.a-no-trucate.a-font-secondary")
+  artist_name_spans = soup.select("li ul li span.c-label.a-no-trucate.a-font-secondary") # but this one I did myself xD
   artist_names = [artist.getText().strip() for artist in artist_name_spans]
 
 def print_songs_artists():
@@ -65,7 +66,8 @@ def print_songs_artists():
   for index, (song, artist) in enumerate(zip(song_names, artist_names), start=1):
     print(index,':',song,' - ',artist)
 
-
+# we do not need this anymore, because user_playlist_create function is obsolete
+# and will be removed from future spotipy library
 def get_user_data():
   """fetching current spotify user data"""
   us_id = sp.current_user()
@@ -91,6 +93,7 @@ def track_searcher(songs: list,artists: list):
   for track,artist in zip(songs,artists):
     q=f'track:"{track}" artist:"{artist}"'
     result.append(sp.search(q=f'{q}', limit=1, type="track"))
+    time.sleep(0.1)
   with open('./dict.json',mode='w') as f:
     json.dump(obj=result,fp=f,indent=2,sort_keys=True)
 
@@ -109,13 +112,17 @@ def url_extractor():
       else:
         pass
       finally:
+        #f.close()
+        #_+=1
         pass
-        # closing file f.close() and _+=1 is pointless, cos of Python iterator
-        # object, this iteral can't change _ value
+        # closing file f.close() is pointless, cos file is closed
+        # after line 101 by with(), and _+=1 is pointless too cos of Python
+        # iterator object, this iteral can't change _ value
         # else and finally are pointless here too, but I like syntax order xD
   return href_list
 
 def add_tracks_to_playlist():
+  """ call for two functions and gets both as an arguments"""
   id_ = create_playlist()
   items_ = url_extractor()
   sp.playlist_add_items(playlist_id=id_,items=items_) # items expects list of urls
