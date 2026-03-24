@@ -50,26 +50,42 @@ def cookies_counter():
     c_count = (c_con.text.split()[0])
     c_per_sec = (c_con.text.split()[4])
   except Exception as ex:
-    print(f'Houston, we have a problem {ex}')
+    print(f'[ERROR] with `cookies_counter()` {ex}')
 
 # cookie clicker
 def cookie_clicker():
+  global c_count, c_per_sec
   t.sleep(r.uniform(1.5,2.5))
-  again = 0
-  while again < 10:
-    big_cookie = driver.find_element(By.ID,value="bigCookie")
-    big_cookie.click()
-    t.sleep((round(r.uniform(0.085,0.100),3)))
-    again+=1
+  five_min_later = t.time() + 600
+  five_sec_later = t.time() + 5
+  big_cookie = driver.find_element(By.ID,value="bigCookie")
+  while t.time() < five_min_later:
+    if t.time() < five_sec_later:
+      big_cookie.click()
+      t.sleep((round(r.uniform(0.045,0.055),3)))
+    else:
+      print('check shop')
+      srch_avail_upgr()
+      five_sec_later = t.time() + 5
 
-
+# upgrades
+def srch_avail_upgr():
+  """ seeking for available upgrades"""
+  upgrades = driver.find_elements(by=By.CSS_SELECTOR, value="div[id^='product']")
+  upgrade = None
+  for upg in reversed(upgrades):
+    if "enabled" in upg.get_attribute("class"):
+      upgrade = upg
+      break
+  if upgrade:
+    upgrade.click()
 
 cookie_consent()
 choose_language_EN()
 cookie_consent()
 cookie_clicker()
-cookies_counter()
-print('count',c_count,'per sec',c_per_sec)
+
 
 t.sleep(1)
 # driver.quit()
+
