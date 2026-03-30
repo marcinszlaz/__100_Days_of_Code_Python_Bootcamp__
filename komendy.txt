@@ -29,7 +29,7 @@ git remote add <lokalny_alias_repozytoriumi_zdalnego> https:.. z repo
 (najlepiej taki jak masz lokalnie) czyli w calosci:
 git remote add serwer_babci https://github.com/marcinszlaz/git-learning.git
 git pull origin main - sciaga ustawienia z repo zdalnego, najlepiej jak jest puste a ma tylko readme i .gitignore
-potem git push -u origin main (ten origin to po prostu źródło, czyli repo na github a main to branch glowny na remote repo)
+potem git push -u origin main (ten origin to po prostu źródło, czyli repo na github a main to branch glowny na lokalnym repo)
 flaga -u to --set-upstream, ustawiasz gdzie ladujesz lokalne commity
 git remote -v  - wyswietla ustawione upstreamy czyli pod jaka nazwe aliasu masz ladowac lokalne commity, a ten alias to adres repo na github
 
