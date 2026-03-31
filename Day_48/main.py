@@ -5,16 +5,18 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.chrome.options import Options
-import random as r, time as t
+import random as r, time as t, pathlib
 from selenium.webdriver.common.keys import Keys # you can use keys on www with this black magic library
 
 COOKIE_URL="https://ozh.github.io/cookieclicker/"
+user_data_dir = pathlib.Path.cwd() / "chrome_profile"
 c_count = 0
 c_per_sec = 0
 
 # chrome doesn't close immediately with this option
 chrome_options: Options = webdriver.ChromeOptions()
 chrome_options.add_experimental_option("detach",True)
+# chrome_options.add_argument(f"--user-data-dir={user_data_dir}")
 chrome_options.add_argument("--start-maximized")
 
 driver: WebDriver = webdriver.Chrome(options=chrome_options)
@@ -56,7 +58,7 @@ def cookies_counter():
 def cookie_clicker():
   global c_count, c_per_sec
   t.sleep(r.uniform(1.5,2.5))
-  five_min_later = t.time() + 600
+  five_min_later = t.time() + 60
   five_sec_later = t.time() + 5
   big_cookie = driver.find_element(By.ID,value="bigCookie")
   while t.time() < five_min_later:
@@ -84,8 +86,28 @@ cookie_consent()
 choose_language_EN()
 cookie_consent()
 cookie_clicker()
-
-
 t.sleep(1)
+
+# def tryandtry():
+#   try:
+#     cookie_consent()
+#     choose_language_EN()
+#     cookie_consent()
+#     cookie_clicker()
+#     t.sleep(1)
+#   except Exception as ex:
+#     print('something went terribly wrong')
+#   else:
+#     tryandtry()
+
+  # try:
+  #   cookie_consent()
+  #   choose_language_EN()
+  #   cookie_consent()
+  #   cookie_clicker()
+  #   t.sleep(1)
+  # except Exception as ex:
+  #   print('something went terribly wrong')
+
 # driver.quit()
 
