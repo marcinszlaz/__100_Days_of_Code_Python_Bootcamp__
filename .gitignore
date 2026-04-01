@@ -301,3 +301,4 @@ __marimo__/
 *.netrc
 *.json
 token.txt
+chrome_profile/
