@@ -10,7 +10,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys # you can use keys on www with this black magic library
 
 GYM_URL="https://appbrewery.github.io/gym/"
-
+class_list = []
 # path to web browser user profile
 user_data_dir1 = os.path.join(os.getcwd(),"chrome_profile")
 user_data_dir = pathlib.Path.cwd() / "chrome_profile" # new, better way
@@ -67,11 +67,108 @@ def amilogged():
   else:
     return True
 
-def schedule():
+def general_schedule():
+  # whole div with schedule
   schedule_plan = wait.until(ec.presence_of_element_located((By.ID,"schedule-page")))
+  # child divs with classes
   plan_blocks = wait.until(ec.presence_of_all_elements_located((By.CSS_SELECTOR,'div[id^="day-group-"]')))
 
+"""
+# css_selector div[class^/class*/class$="blahblah"] find div with class named blahblah ^start with *contain anywhere $end with
+# xpath ancestor::div finds higher divs, child::p finds lower p
+# xpath following-sibling::p lower neighbour in DOM, preceding-sibling::h5 higher neighbour in DOM
+# you can use index [1] [last()] [first()]
+# parent:: 1 lvl up only, descendant:: lower lvls
+# xpath has own language, in web browser you can use
+# $x('xpath request') in console (F12)
+# example $x('//p/ancestor::div')
+# $$ elements $ element (like find_element[s] in Selenium)
+# $('p[id^="zupa"]') or $$('css-selector') in general
+# xpath is mighty, but it's next programming language
+# which I have to learn xDDD
+# '//p[starts-with(@id,"class-time-yoga-")]/ancestor::div[4]/h2'
+# you can't use ^ * $ u need to use starts-with(), contains(),
+# count(), ends-with() exist in xpath 2.0 but it isn't supported
+# substring(), string-length()
+# //p[substring(@id, string-length(@id) - string-length('yoga') + 1) = 'yoga']
+# xpath doesn't have index[0], starts with [1], is case sensitive
+# and dot `.` means function text() -[fetching text from tag] and
+# it means too, here, get from here, like in GNU-Linux OS ./ .
+"""
+
+def yoga_class():
+  yoga_classes = wait.until(ec.presence_of_all_elements_located((By.CSS_SELECTOR,'p[id^="class-time-yoga-"]')))
+  class_times = wait.until(ec.presence_of_all_elements_located((By.XPATH, '//p[starts-with(@id,"class-time-yoga-")]/ancestor::div[4]/h2')))
+
+  yoga_classes_l = [_class for _class in yoga_classes]
+  class_times_l =[_class for _class in class_times]
+
+  # without checking length, zip takes care of this
+  for _class,_name in zip(yoga_classes_l, class_times_l):
+    print('yoga class at: ',_class.text,_name.text)
+
+def hiit_class():
+  hiit_classes = wait.until(ec.presence_of_all_elements_located((By.CSS_SELECTOR,'p[id^="class-time-hiit-"]')))
+  class_times = wait.until(ec.presence_of_all_elements_located((By.XPATH,'//p[starts-with(@id,"class-time-hiit-")]/ancestor::div[4]/h2')))
+
+  hiit_classes_l = [_class for _class in hiit_classes]
+  class_times_l =[_class for _class in class_times]
+
+  # without checking length, zip takes care of this
+  for _class,_name in zip(hiit_classes_l, class_times_l):
+    print('hiit class at: ',_class.text,_name.text)
+
+def spin_class():
+  spin_classes = wait.until(ec.presence_of_all_elements_located((By.CSS_SELECTOR,'p[id^="class-time-spin-"]')))
+  class_times = wait.until(
+    ec.presence_of_all_elements_located((By.XPATH, '//p[starts-with(@id,"class-time-spin-")]/ancestor::div[4]/h2')))
+
+  spin_classes_l = [_class for _class in spin_classes]
+  class_times_l = [_class for _class in class_times]
+
+  # without checking length, zip takes care of this
+  for _class, _name in zip(spin_classes_l, class_times_l):
+    print('spin class at: ',_class.text, _name.text)
+
+def whole_class():
+  global class_list
+  class_times = wait.until(ec.presence_of_all_elements_located((By.CSS_SELECTOR, 'p[id^="class-time-"]')))
+  class_dates = wait.until(ec.presence_of_all_elements_located((By.XPATH, '//p[starts-with(@id,"class-time-")]/ancestor::div[4]/h2')))
+  class_names = wait.until(ec.presence_of_all_elements_located((By.XPATH, '//p[starts-with(@id,"class-time-")]/preceding-sibling::h3')))
+
+  class_times_l = [_class for _class in class_times]
+  class_dates_l = [_class for _class in class_dates]
+  class_names_l = [_class for _class in class_names]
+
+  # without checking length, zip takes care of this
+  for _class,_date,_name in zip(class_times_l, class_dates_l, class_names_l):
+    # print(f'Booked: {_name.text} on {_date.text} at {_class.text}')
+    class_list.append(f'Booked: {_name.text} on {_date.text} at {_class.text}')
+
+def new_whole_class():
+  global class_list
+  class_times = wait.until(ec.presence_of_all_elements_located((By.CSS_SELECTOR, 'p[id^="class-time-"]')))
+  for _time in class_times:
+    class_date = _time.find_element(By.XPATH, value= './ancestor::div[4]/h2')
+    class_name = _time.find_element(By.XPATH, value = './preceding-sibling::h3')
+    # t.sleep(0.2)
+    # './ancestor::div[2]/div[2]/button[starts-with(@id,"book-button-")]'
+    # './ancestor::div[1]/following-sibling::div/button[starts-with(@id,"book-button-")]'
+    button = _time.find_element(By.XPATH,value= './ancestor::div[1]/following-sibling::div/button[starts-with(@id,"book-button-")]')
+    class_list.append((f'Booked: {class_name.text} on {class_date.text} at {_time.text}',button))
+
+def choose_class(c_list: list,day='Tue',time='6:00 PM'):
+  for _ in c_list:
+    if day in _[0] and time in _[0]:
+      print(_[0])
+      _[1].click() # second value in tuple is button object (Selenium)
 
 # core xD
 login()
+new_whole_class()
+choose_class(class_list)
+# whole_class()
+# yoga_class()
+# hiit_class()
+# spin_class()
 # driver.implicitly_wait(0)
