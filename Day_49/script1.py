@@ -95,7 +95,6 @@ def general_schedule():
 # and dot `.` means function text() -[fetching text from tag] and
 # it means too, here, get from here, like in GNU-Linux OS ./ .
 """
-
 def yoga_class():
   yoga_classes = wait.until(ec.presence_of_all_elements_located((By.CSS_SELECTOR,'p[id^="class-time-yoga-"]')))
   class_times = wait.until(ec.presence_of_all_elements_located((By.XPATH, '//p[starts-with(@id,"class-time-yoga-")]/ancestor::div[4]/h2')))
@@ -158,15 +157,55 @@ def new_whole_class():
     class_list.append((f'Booked: {class_name.text} on {class_date.text} at {_time.text}',button))
 
 def choose_class(c_list: list,day='Tue',time='6:00 PM'):
+  hour_list = ['7:00 AM','8:00 AM','9:00 AM','5:00 PM','6:00 PM','7:00 PM']
+  day_list = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+  if day not in day_list and time not in hour_list:
+    print(f'Sorry, correct values are {day_list}/{hour_list}')
+    answer = input('Wanna try again ? (y/n)')
+    if answer.lower() == "y":
+      day = input("Type day")
+      time = input("Type hour")
+      choose_class(c_list,day,time)
+    else:
+      driver.quit()
+      raise ValueError("Incorrect values, this is the end")
   for _ in c_list:
     if day in _[0] and time in _[0]:
-      print(_[0])
-      _[1].click() # second value in tuple is button object (Selenium)
+      if _[1].text.lower() == "booked":
+        print(f'Already {_[0]}')
+      elif _[1].text.lower() == "waitlisted":
+        print(f'Already on Waitlist => {_[0].replace('Booked:','')}')
+      elif _[1].text.lower() == "join waitlist":
+        _[1].click() # second value in tuple is button object (Selenium)
+        print(f'Joined waitlist for: {_[0].replace('Booked:','')}')
+      else:
+        _[1].click() # second value in tuple is button object (Selenium)
+        print(f'{_[0]}')
+
+def booking_summary(): # it's better to do it inside choose_class, at least counters, then it will be closer to truth
+  booked = 0
+  waitlisted = 0
+  alr_bok_wait = 0 # already booked waitlisted
+  buttons = wait.until(ec.presence_of_all_elements_located((By.XPATH, '//button[starts-with(@id,"book-button-")]')))
+  for button in buttons:
+    if button.text.lower() == "booked":
+      booked+=1
+      alr_bok_wait+=booked
+    if button.text.lower() == "waitlisted":
+      waitlisted+=1
+      alr_bok_wait+=waitlisted
+
+  print("--- BOOKING SUMMARY ---")
+  print(f'Classes booked: {booked}')
+  print(f'Waitlists joined: {waitlisted}')
+  print(f'Already booked/waitlisted: {alr_bok_wait}')
 
 # core xD
 login()
 new_whole_class()
 choose_class(class_list)
+booking_summary()
+
 # whole_class()
 # yoga_class()
 # hiit_class()

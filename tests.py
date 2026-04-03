@@ -13,3 +13,6 @@ print(*sequence([1,2,3],[2,5,6]))
 tuple_list = [('a','b'),('c','d'),('e','f')] # list of tuple is correct too
 print(tuple_list[0][0])
 print(tuple_list[2][1])
+
+capital_case = "Soup is good on Monday at morning"
+print(capital_case.lower())
