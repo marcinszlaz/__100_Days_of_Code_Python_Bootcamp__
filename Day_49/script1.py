@@ -1,3 +1,7 @@
+# TODO input values to function choose_class(), multiple values, days and times,
+# TODO maybe args* or kwargs**, or more simply way, using list
+# TODO even simplier, only 3 args for choose_class() but make input() in while loop
+
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
@@ -7,10 +11,17 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 import random as r, time as t
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.keys import Keys # you can use keys on www with this black magic library
 
 GYM_URL="https://appbrewery.github.io/gym/"
 class_list = []
+class_dict = {}
+booked_dict = {"_counter_":0}
+booked = 0
+waitlisted = 0
+alr_bok_wait = 0  # already booked waitlisted
+
 # path to web browser user profile
 user_data_dir1 = os.path.join(os.getcwd(),"chrome_profile")
 user_data_dir = pathlib.Path.cwd() / "chrome_profile" # new, better way
@@ -95,6 +106,7 @@ def general_schedule():
 # and dot `.` means function text() -[fetching text from tag] and
 # it means too, here, get from here, like in GNU-Linux OS ./ .
 """
+
 def yoga_class():
   yoga_classes = wait.until(ec.presence_of_all_elements_located((By.CSS_SELECTOR,'p[id^="class-time-yoga-"]')))
   class_times = wait.until(ec.presence_of_all_elements_located((By.XPATH, '//p[starts-with(@id,"class-time-yoga-")]/ancestor::div[4]/h2')))
@@ -147,7 +159,9 @@ def whole_class():
 def new_whole_class():
   global class_list
   class_times = wait.until(ec.presence_of_all_elements_located((By.CSS_SELECTOR, 'p[id^="class-time-"]')))
+  num = 0
   for _time in class_times:
+    num += 1
     class_date = _time.find_element(By.XPATH, value= './ancestor::div[4]/h2')
     class_name = _time.find_element(By.XPATH, value = './preceding-sibling::h3')
     # t.sleep(0.2)
@@ -155,37 +169,88 @@ def new_whole_class():
     # './ancestor::div[1]/following-sibling::div/button[starts-with(@id,"book-button-")]'
     button = _time.find_element(By.XPATH,value= './ancestor::div[1]/following-sibling::div/button[starts-with(@id,"book-button-")]')
     class_list.append((f'Booked: {class_name.text} on {class_date.text} at {_time.text}',button))
+    class_dict[f'class_{num}']={"class_name": class_name.text, "class_date": class_date.text, "class_hour":_time.text, "button_object": button}
+
+def check_bookings():
+  global booked_dict
+  booking = wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, 'a[id^="my-bookings-"]')))
+  booking.click()
+  try:
+    confirmed_bookings_presence = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR,'h2[id^="confirmed-bookings-"]')))
+    confirmed_waitlist_presence = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR,'h2[id*="waitlist-title"]')))
+  except TimeoutException as te:
+    print(f"Booking or waitlist probably are empty")
+  else:
+    if confirmed_bookings_presence:
+      class_name = driver.find_elements(By.CSS_SELECTOR,value="h3[id*='booking-class-name-']")
+      num = 0
+      for _class in class_name:
+        num+=1
+        when = _class.find_elements(By.XPATH,value="./following-sibling::p[1]")
+        button = _class.find_elements(By.XPATH,value='./ancestor::div/following-sibling::button[contains(@id,"cancel-booking-")]')
+        booked_dict[f'booked_{num}']={"name":_class.text,"date":when[6:-8],"time":when[-8:],"button":button}
+        booked_dict["bk_counter"]=num
+        booked_dict["_counter_"]=int(booked_dict.get("bk_counter",0))+int(booked_dict.get("wt_counter",0))
+    if confirmed_waitlist_presence:
+      waitlist_name = driver.find_elements(By.XPATH, value='//h3[starts-with(@id,"waitlist-class-name")]')
+      num_ = 0
+      for _waitlist in waitlist_name:
+        num_+=1
+        when = _waitlist.find_elements(By.XPATH,value="./following-sibling::p[1]")
+        button = _waitlist.find_elements(By.XPATH,value='./ancestor::div[1]/following-sibling::button[starts-with(@id,"leave-waitlist-")]')
+        booked_dict[f'waitlisted_{num_}']= {"name":_waitlist.text,"date":when[6:-8],"time":when[-8:],"button":button}
+        booked_dict["wt_counter"] = num_
+        booked_dict["_counter_"] = int(booked_dict.get("bk_counter", 0)) + int(booked_dict.get("wt_counter", 0))
 
 def choose_class(c_list: list,day='Tue',time='6:00 PM'):
-  hour_list = ['7:00 AM','8:00 AM','9:00 AM','5:00 PM','6:00 PM','7:00 PM']
+  global booked, waitlisted, alr_bok_wait
+  new_waitlist = "[New Waitlist] "
+  new_booking = "[New Booking] "
+  hour_list = ['7:00 am','8:00 am','9:00 am','5:00 pm','6:00 pm','7:00 pm']
   day_list = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
-  if day not in day_list and time not in hour_list:
+  if day[:3].lower() not in day_list and time.lower() not in hour_list:
     print(f'Sorry, correct values are {day_list}/{hour_list}')
     answer = input('Wanna try again ? (y/n)')
     if answer.lower() == "y":
-      day = input("Type day")
-      time = input("Type hour")
+      day = input("Type day\n")
+      time = input("Type hour\n")
       choose_class(c_list,day,time)
     else:
+      print("Bye\n")
+      driver.close()
       driver.quit()
-      raise ValueError("Incorrect values, this is the end")
+      #raise ValueError("[ERROR] User doesn't cooperate xD. Incorrect values, this is the end")
   for _ in c_list:
-    if day in _[0] and time in _[0]:
+    if day[:3].lower() in _[0].lower() and time.upper() in _[0].upper():
       if _[1].text.lower() == "booked":
         print(f'Already {_[0]}')
+        booked+=1
       elif _[1].text.lower() == "waitlisted":
         print(f'Already on Waitlist => {_[0].replace('Booked:','')}')
+        waitlisted+=1
       elif _[1].text.lower() == "join waitlist":
         _[1].click() # second value in tuple is button object (Selenium)
         print(f'Joined waitlist for: {_[0].replace('Booked:','')}')
+        new_waitlist = "".join([new_waitlist, _[0].replace('Booked: ','')])
       else:
         _[1].click() # second value in tuple is button object (Selenium)
         print(f'{_[0]}')
+        new_booking = "".join([new_booking,_[0].replace('Booked: ', '')])
+  check_bookings()
+  alr_bok_wait = booked_dict["_counter_"]
+  print("\n--- BOOKING SUMMARY ---")
+  print(f'Classes booked: {booked}')
+  print(f'Waitlists joined: {waitlisted}')
+  print(f'Already booked/waitlisted: {alr_bok_wait}')
+  print(f'Total Tuesday & Thursday 6pm classes: {alr_bok_wait}')
+  print("\n--- DETAILED CLASS LIST ---")
+  print(new_booking)
+  print(new_waitlist)
 
-def booking_summary(): # it's better to do it inside choose_class, at least counters, then it will be closer to truth
-  booked = 0
-  waitlisted = 0
-  alr_bok_wait = 0 # already booked waitlisted
+def booking_summary():
+  """function booking_summary is obsolete, instead of it use function choose_class,
+     choose_class takes features from function booking_summary"""
+  global booked,waitlisted, alr_bok_wait
   buttons = wait.until(ec.presence_of_all_elements_located((By.XPATH, '//button[starts-with(@id,"book-button-")]')))
   for button in buttons:
     if button.text.lower() == "booked":
@@ -194,7 +259,6 @@ def booking_summary(): # it's better to do it inside choose_class, at least coun
     if button.text.lower() == "waitlisted":
       waitlisted+=1
       alr_bok_wait+=waitlisted
-
   print("--- BOOKING SUMMARY ---")
   print(f'Classes booked: {booked}')
   print(f'Waitlists joined: {waitlisted}')
@@ -202,10 +266,17 @@ def booking_summary(): # it's better to do it inside choose_class, at least coun
 
 # core xD
 login()
-new_whole_class()
-choose_class(class_list)
-booking_summary()
+again = ""
+while again != "exit":
+  new_whole_class()
+  day = input("Type day\n")
+  time = input("Type hour\n")
+  choose_class(class_list,day,time)
+  again = input("Add next training unit ? (any key - yes / exit - no\n")
+  # if again == "exit":
+  #   driver.quit()
 
+# booking_summary()
 # whole_class()
 # yoga_class()
 # hiit_class()

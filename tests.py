@@ -1,3 +1,12 @@
+import os,pathlib
+
+
+here = pathlib.Path.cwd()
+_list = os.listdir()
+
+print(here,_list)
+
+
 def multiplying(x,y):
   return x*y
 
@@ -16,3 +25,27 @@ print(tuple_list[2][1])
 
 capital_case = "Soup is good on Monday at morning"
 print(capital_case.lower())
+
+with open(__file__,mode='r') as file:
+  print_this = file.read()
+  print(print_this)
+
+# input("zupa jest dobra")
+
+day = "Monday"
+print(day[:3])
+_ = ["Booked: cycki"]
+new_booking='lubie'
+
+print(" ".join([new_booking,f'{_[0].replace('Booked: ', '')}']))
+
+test_dict = {"_counter_":0}
+test_dict["ct1"]={"name":"bok1","counter":1}
+test_dict["ct2"]={"name":"wait1"}
+
+print(test_dict.get("ct1",{}).get("counter",0))
+print(test_dict.get("ct2",{}).get("counter",0))
+print('kombinacja',test_dict["ct1"].get("counter"))
+print(test_dict["_counter_"])
+zzz = test_dict["_counter_"]=(int(test_dict["ct1"].get("counter",0))+int(test_dict["ct2"].get("counter",0)))
+print(zzz)
