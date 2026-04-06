@@ -1,6 +1,5 @@
 import os,pathlib
 
-
 here = pathlib.Path.cwd()
 _list = os.listdir()
 
@@ -49,3 +48,19 @@ print('kombinacja',test_dict["ct1"].get("counter"))
 print(test_dict["_counter_"])
 zzz = test_dict["_counter_"]=(int(test_dict["ct1"].get("counter",0))+int(test_dict["ct2"].get("counter",0)))
 print(zzz)
+
+lst_error_tests = ['a','b','c',1,2,3]
+for let in lst_error_tests:
+  print(let)
+print(len(lst_error_tests))
+
+for _ in range(0,7):
+  try:
+    print(lst_error_tests[_])
+  except IndexError as ie:
+    print(f'List length was extended ! {ie}')
+
+temporary_string = "[NEW BOOKING]"
+print(len(temporary_string))
+temporary_string+="SOUP IS VERY GOOD"
+print(temporary_string) if len(temporary_string) > 15 else print("---none----")

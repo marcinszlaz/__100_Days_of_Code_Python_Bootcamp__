@@ -1,6 +1,5 @@
-# TODO input values to function choose_class(), multiple values, days and times,
-# TODO maybe args* or kwargs**, or more simply way, using list
-# TODO even simplier, only 3 args for choose_class() but make input() in while loop
+# PROJECT 49, 62% progress in whole course :D
+# Let's say its finished xDDD
 
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.chrome.options import Options
@@ -21,7 +20,7 @@ booked_dict = {"_counter_":0}
 booked = 0
 waitlisted = 0
 alr_bok_wait = 0  # already booked waitlisted
-
+alt_alr_bok_wait = 0
 # path to web browser user profile
 user_data_dir1 = os.path.join(os.getcwd(),"chrome_profile")
 user_data_dir = pathlib.Path.cwd() / "chrome_profile" # new, better way
@@ -41,7 +40,7 @@ chrome_options.add_argument("--start-maximized") # web browser full screen mode
 driver: WebDriver = webdriver.Chrome(options=chrome_options)
 driver.get(GYM_URL)
 # driver.implicitly_wait(0) # it is global setting for web driver, not good, 0 is default
-wait = WebDriverWait(driver, 2) # it's better way than driver.implicitly_wait(float) because it has extended conditions to use, and you can customize time for each instance of button, input,etc.
+wait = WebDriverWait(driver, 5) # it's better way than driver.implicitly_wait(float) because it has extended conditions to use, and you can customize time for each instance of button, input,etc.
 # t.sleep(r.uniform(0.15,0.25))
 # driver.maximize_window() # instead of line 24, line 23 and 24 are conflicted
 
@@ -110,10 +109,8 @@ def general_schedule():
 def yoga_class():
   yoga_classes = wait.until(ec.presence_of_all_elements_located((By.CSS_SELECTOR,'p[id^="class-time-yoga-"]')))
   class_times = wait.until(ec.presence_of_all_elements_located((By.XPATH, '//p[starts-with(@id,"class-time-yoga-")]/ancestor::div[4]/h2')))
-
   yoga_classes_l = [_class for _class in yoga_classes]
   class_times_l =[_class for _class in class_times]
-
   # without checking length, zip takes care of this
   for _class,_name in zip(yoga_classes_l, class_times_l):
     print('yoga class at: ',_class.text,_name.text)
@@ -121,10 +118,8 @@ def yoga_class():
 def hiit_class():
   hiit_classes = wait.until(ec.presence_of_all_elements_located((By.CSS_SELECTOR,'p[id^="class-time-hiit-"]')))
   class_times = wait.until(ec.presence_of_all_elements_located((By.XPATH,'//p[starts-with(@id,"class-time-hiit-")]/ancestor::div[4]/h2')))
-
   hiit_classes_l = [_class for _class in hiit_classes]
   class_times_l =[_class for _class in class_times]
-
   # without checking length, zip takes care of this
   for _class,_name in zip(hiit_classes_l, class_times_l):
     print('hiit class at: ',_class.text,_name.text)
@@ -133,10 +128,8 @@ def spin_class():
   spin_classes = wait.until(ec.presence_of_all_elements_located((By.CSS_SELECTOR,'p[id^="class-time-spin-"]')))
   class_times = wait.until(
     ec.presence_of_all_elements_located((By.XPATH, '//p[starts-with(@id,"class-time-spin-")]/ancestor::div[4]/h2')))
-
   spin_classes_l = [_class for _class in spin_classes]
   class_times_l = [_class for _class in class_times]
-
   # without checking length, zip takes care of this
   for _class, _name in zip(spin_classes_l, class_times_l):
     print('spin class at: ',_class.text, _name.text)
@@ -146,28 +139,31 @@ def whole_class():
   class_times = wait.until(ec.presence_of_all_elements_located((By.CSS_SELECTOR, 'p[id^="class-time-"]')))
   class_dates = wait.until(ec.presence_of_all_elements_located((By.XPATH, '//p[starts-with(@id,"class-time-")]/ancestor::div[4]/h2')))
   class_names = wait.until(ec.presence_of_all_elements_located((By.XPATH, '//p[starts-with(@id,"class-time-")]/preceding-sibling::h3')))
-
   class_times_l = [_class for _class in class_times]
   class_dates_l = [_class for _class in class_dates]
   class_names_l = [_class for _class in class_names]
-
   # without checking length, zip takes care of this
   for _class,_date,_name in zip(class_times_l, class_dates_l, class_names_l):
     # print(f'Booked: {_name.text} on {_date.text} at {_class.text}')
     class_list.append(f'Booked: {_name.text} on {_date.text} at {_class.text}')
+# nope, with this approach, we have short 7th elements list instead of 37 elements
+# fatal truncate, of course it's all fault of zip, not mine ! xD
 
 def new_whole_class():
   global class_list
+  class_list =[]
+  class_schedule = wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR,'a[id*="schedule-link"]')))
+  class_schedule.click()
   class_times = wait.until(ec.presence_of_all_elements_located((By.CSS_SELECTOR, 'p[id^="class-time-"]')))
   num = 0
   for _time in class_times:
     num += 1
     class_date = _time.find_element(By.XPATH, value= './ancestor::div[4]/h2')
     class_name = _time.find_element(By.XPATH, value = './preceding-sibling::h3')
-    # t.sleep(0.2)
     # './ancestor::div[2]/div[2]/button[starts-with(@id,"book-button-")]'
     # './ancestor::div[1]/following-sibling::div/button[starts-with(@id,"book-button-")]'
     button = _time.find_element(By.XPATH,value= './ancestor::div[1]/following-sibling::div/button[starts-with(@id,"book-button-")]')
+    t.sleep(0.15)
     class_list.append((f'Booked: {class_name.text} on {class_date.text} at {_time.text}',button))
     class_dict[f'class_{num}']={"class_name": class_name.text, "class_date": class_date.text, "class_hour":_time.text, "button_object": button}
 
@@ -201,17 +197,20 @@ def check_bookings():
         booked_dict[f'waitlisted_{num_}']= {"name":_waitlist.text,"date":when[6:-8],"time":when[-8:],"button":button}
         booked_dict["wt_counter"] = num_
         booked_dict["_counter_"] = int(booked_dict.get("bk_counter", 0)) + int(booked_dict.get("wt_counter", 0))
+  class_schedule = wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, '#schedule-link')))
+  class_schedule.click()
 
-def choose_class(c_list: list,day='Tue',time='6:00 PM'):
-  global booked, waitlisted, alr_bok_wait
+def choose_class(c_list: list,day='Tue',time='6:00 PM')->None:
+  global booked, waitlisted, alr_bok_wait, alt_alr_bok_wait
   new_waitlist = "[New Waitlist] "
   new_booking = "[New Booking] "
-  hour_list = ['7:00 am','8:00 am','9:00 am','5:00 pm','6:00 pm','7:00 pm']
+  hour_list = ['6:00 am','8:00 am','9:00 am','5:00 pm','6:00 pm','7:00 pm']
   day_list = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
   if day[:3].lower() not in day_list and time.lower() not in hour_list:
     print(f'Sorry, correct values are {day_list}/{hour_list}')
-    answer = input('Wanna try again ? (y/n)')
-    if answer.lower() == "y":
+  else:
+    """answer = input('Wanna try again ? (y/n)')
+    if answer[:1].lower() == "y":
       day = input("Type day\n")
       time = input("Type hour\n")
       choose_class(c_list,day,time)
@@ -219,33 +218,34 @@ def choose_class(c_list: list,day='Tue',time='6:00 PM'):
       print("Bye\n")
       driver.close()
       driver.quit()
-      #raise ValueError("[ERROR] User doesn't cooperate xD. Incorrect values, this is the end")
-  for _ in c_list:
-    if day[:3].lower() in _[0].lower() and time.upper() in _[0].upper():
-      if _[1].text.lower() == "booked":
-        print(f'Already {_[0]}')
-        booked+=1
-      elif _[1].text.lower() == "waitlisted":
-        print(f'Already on Waitlist => {_[0].replace('Booked:','')}')
-        waitlisted+=1
-      elif _[1].text.lower() == "join waitlist":
-        _[1].click() # second value in tuple is button object (Selenium)
-        print(f'Joined waitlist for: {_[0].replace('Booked:','')}')
-        new_waitlist = "".join([new_waitlist, _[0].replace('Booked: ','')])
-      else:
-        _[1].click() # second value in tuple is button object (Selenium)
-        print(f'{_[0]}')
-        new_booking = "".join([new_booking,_[0].replace('Booked: ', '')])
-  check_bookings()
-  alr_bok_wait = booked_dict["_counter_"]
-  print("\n--- BOOKING SUMMARY ---")
-  print(f'Classes booked: {booked}')
-  print(f'Waitlists joined: {waitlisted}')
-  print(f'Already booked/waitlisted: {alr_bok_wait}')
-  print(f'Total Tuesday & Thursday 6pm classes: {alr_bok_wait}')
-  print("\n--- DETAILED CLASS LIST ---")
-  print(new_booking)
-  print(new_waitlist)
+      raise ValueError("[ERROR] User doesn't cooperate xD. Incorrect values, this is the end")"""
+    for _ in c_list:
+      if day[:3].lower() in _[0].lower() and time.upper() in _[0].upper():
+        if _[1].text.lower() == "booked":
+          print(f'Already {_[0]}')
+        elif _[1].text.lower() == "waitlisted":
+          print(f'Already on Waitlist => {_[0].replace('Booked:','')}')
+          alt_alr_bok_wait+=1
+        elif _[1].text.lower() == "join waitlist":
+          _[1].click() # second value in tuple is button object (Selenium)
+          print(f'Joined waitlist for: {_[0].replace('Booked:','')}')
+          new_waitlist = "".join([new_waitlist, _[0].replace('Booked: ','')])
+          waitlisted+=1
+        else: # booking part :)
+          _[1].click() # second value in tuple is button object (Selenium)
+          print(f'{_[0]}')
+          new_booking = "".join([new_booking,_[0].replace('Booked: ', '')])
+          booked+=1
+    check_bookings()
+    alr_bok_wait = booked_dict["_counter_"]
+    print("\n--- BOOKING SUMMARY ---")
+    print(f'New bookings: {booked}')
+    print(f'New waitlist entries: {waitlisted}')
+    print(f'Already booked/waitlisted: {int(alr_bok_wait + alt_alr_bok_wait)}')
+    print(f'Total Tuesday & Thursday 6pm classes: {alr_bok_wait}')
+    print("\n--- DETAILED CLASS LIST ---")
+    print(new_booking) if len(new_booking) > 15 else print("-booking-none-")
+    print(new_waitlist) if len(new_waitlist) > 15 else print("-waitlisting-none-")
 
 def booking_summary():
   """function booking_summary is obsolete, instead of it use function choose_class,
@@ -269,13 +269,14 @@ login()
 again = ""
 while again != "exit":
   new_whole_class()
-  day = input("Type day\n")
-  time = input("Type hour\n")
+  day = input("<at while> Type day\n")
+  time = input("<at while> Type hour\n")
   choose_class(class_list,day,time)
-  again = input("Add next training unit ? (any key - yes / exit - no\n")
-  # if again == "exit":
-  #   driver.quit()
-
+  again = input("Add next training unit ? (`yes` - continue / `exit` - exit\n")
+  if again == "exit":
+    driver.quit()
+    continue
+# login()
 # booking_summary()
 # whole_class()
 # yoga_class()
