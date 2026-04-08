@@ -1,3 +1,4 @@
+import openpyxl
 import os,pathlib
 
 here = pathlib.Path.cwd()
@@ -25,9 +26,9 @@ print(tuple_list[2][1])
 capital_case = "Soup is good on Monday at morning"
 print(capital_case.lower())
 
-with open(__file__,mode='r') as file:
-  print_this = file.read()
-  print(print_this)
+# with open(__file__,mode='r') as file:
+#   print_this = file.read()
+#   print(print_this)
 
 # input("zupa jest dobra")
 
@@ -64,3 +65,8 @@ temporary_string = "[NEW BOOKING]"
 print(len(temporary_string))
 temporary_string+="SOUP IS VERY GOOD"
 print(temporary_string) if len(temporary_string) > 15 else print("---none----")
+
+
+workbook = openpyxl.load_workbook(filename="tests.py",read_only = True,keep_vba = False)
+sheet = fajl["Arkusz1"]
+
