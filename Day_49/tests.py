@@ -71,7 +71,6 @@
 # sheet = workbook["Arkusz1"]
 # print(sheet)
 
-
 lista = ['hed1','hed2','hed3','hed4']
 for i,hed in enumerate(lista,start=1):
   print(f'nr{i} {hed}')

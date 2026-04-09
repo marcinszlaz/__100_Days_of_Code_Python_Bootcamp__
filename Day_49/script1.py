@@ -19,7 +19,7 @@ class_dict = {}
 booked_dict = {"_counter_":0}
 booked = 0
 waitlisted = 0
-alr_bok_wait = 0  # already booked waitlisted
+already_booked_waitlisted = 0  # already booked waitlisted
 alt_alr_bok_wait = 0
 # path to web browser user profile
 user_data_dir1 = os.path.join(os.getcwd(),"chrome_profile")
@@ -201,7 +201,7 @@ def check_bookings():
   class_schedule.click()
 
 def choose_class(c_list: list,day='Tue',time='6:00 PM')->None:
-  global booked, waitlisted, alr_bok_wait, alt_alr_bok_wait
+  global booked, waitlisted, already_booked_waitlisted, alt_alr_bok_wait
   new_waitlist = "[New Waitlist] "
   new_booking = "[New Booking] "
   hour_list = ['6:00 am','8:00 am','9:00 am','5:00 pm','6:00 pm','7:00 pm']
@@ -250,7 +250,7 @@ def choose_class(c_list: list,day='Tue',time='6:00 PM')->None:
 def booking_summary():
   """function booking_summary is obsolete, instead of it use function choose_class,
      choose_class takes features from function booking_summary"""
-  global booked,waitlisted, alr_bok_wait
+  global booked,waitlisted, already_booked_waitlisted
   buttons = wait.until(ec.presence_of_all_elements_located((By.XPATH, '//button[starts-with(@id,"book-button-")]')))
   for button in buttons:
     if button.text.lower() == "booked":
