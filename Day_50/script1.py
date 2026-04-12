@@ -1,3 +1,6 @@
+# I can't finish the project, tinder account was blocked xD
+# because I'm the filthy bot
+
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
@@ -114,5 +117,5 @@ def login_by_google():
 cookie_yes()
 login_by_google()
 
-_input_ = input("Podaj rozmiar penisa :> ")
+_input_ = input("Input size of your penis :] ")
 
