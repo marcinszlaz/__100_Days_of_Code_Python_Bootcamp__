@@ -1,0 +1,5 @@
+INSTA_URL="https://www.instagram.com/"
+FAVOURITE_ACCOUNT_HREF="/antsy__pantsy/"
+FAVOURITE_PERSON="antsy_"
+YT_URL="https://youtube.com"
+GM_URL="https://mail.google.com"
