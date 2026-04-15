@@ -16,6 +16,11 @@ def rand_time():
 for _ in range(1,4):
   print(_)
 
+try:
+  print(f'2 / 0 = ',2/0)
+except Exception as e:
+  print(f'[ERROR] {e}')
+
 """
 print('print 1')
 t1 = t.time()

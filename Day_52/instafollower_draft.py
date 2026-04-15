@@ -70,89 +70,110 @@ class InstaFollower:
       wait = WebDriverWait(driver, 20)
       self.wait = wait
 
-    # handles with cookie window
+    # cookie
     try:
       decline_cookie = self.wait.until(ec.presence_of_element_located((By.XPATH,'//div/button[2]')))
-    except (TimeoutException, Exception) as er:
-      print(f'[INFO] Cookie window doesn\'t appear {repr(er)}\n{er.msg}')
+      # /html/body/div[4]/div[1]/div/div[2]/div/div/div/div/div[2]/div/button[2]
+      # '//div/button[contains(text(),"opcjonalne pliki cookie")]'
+    except (ValueError, TimeoutException) as er:
+      print('Cookie resisting !')
     else:
       self.human_click(decline_cookie)
       self.rand_time()
-
-    #inputs account login
+      decline_cookie.send_keys(Keys.ENTER)
+      self.rand_time()
+    #input login
     try:
       other_profile_button = self.wait.until(ec.presence_of_element_located((By.XPATH,'(//div/div[@role="button"])[4]')))
-    except (TimeoutException, Exception) as er:
-      print(f'[INFO] Window doesn\'t appear {repr(er)}\n{er.msg}')
+    except (TimeoutException, ValueError) as er:
+      print('Window doesn\'t appear')
     else:
       self.human_click(other_profile_button)
+      other_profile_button.send_keys(Keys.ENTER)
       self.rand_time()
+    # input('Uzyj innego profilu')
+    self.rand_time()
     try:
       input_login = self.wait.until(ec.presence_of_element_located((By.XPATH,'//input[contains(@type,"text")]')))
-    except (TimeoutException,Exception) as er:
-      print(f'[ERROR] Can\'t type login  {repr(er)}\n{er.msg}')
+    # '//input[contains(@id,"_r_2_")]'
+    except (TimeoutException,ValueError) as er:
+      print('It\'s ok xD')
     else:
       input_login.send_keys(os.getenv("INSTA_LOGIN"))
       self.rand_time()
       input_login.send_keys(Keys.TAB)
       self.rand_time()
-
-      #inputs password
+      #input password
       input_password = self.wait.until(ec.presence_of_element_located((By.XPATH,'//input[contains(@type,"password")]')))
       input_password.send_keys(os.getenv("INSTA_PASSWORD"))
       self.rand_time()
       input_login.send_keys(Keys.ENTER)
       self.rand_time()
-
     # save your credentials (no)
     try:
-      save_credentials_button = self.wait.until(ec.element_to_be_clickable((By.XPATH,'//div[contains(text(),"Nie teraz")]'))) # Polish - English => "Not now"
-    except (TimeoutException, Exception) as er:
-      print(f'[INFO] Window `save credentials` doesn\'t appear {repr(er)}\n{er.msg}')
+      save_credentials_button = self.wait.until(ec.element_to_be_clickable((By.XPATH,'//div[contains(text(),"Nie teraz")]')))
+    except (TimeoutException, ValueError) as er:
+      print(f'It\'s ok :) {er}')
     else:
       self.rand_time()
       self.human_click(save_credentials_button)
-      print('Button clicked')
-
+      print('clicked')
+      save_credentials_button.send_keys(Keys.ENTER)
+      print('entered')
     # disable pop ups
     try:
-      popup_disable_button = self.wait.until(ec.presence_of_element_located((By.XPATH,'//button[contains(text(),"Nie teraz")]'))) # Polish - English => "Not now"
-    except (TimeoutException, Exception) as er:
-      print(f'[INFO] Popup window doesn\'t appear {repr(er)}\n{er.msg}')
+      popup_disable_button = self.wait.until(ec.presence_of_element_located((By.XPATH,'//button[contains(text(),"Nie teraz")]')))
+    except TimeoutException as er:
+      print('It\'s ok :)')
     else:
       self.human_click(popup_disable_button)
-      print('Button clicked')
+      print('clicked')
+      popup_disable_button.send_keys(Keys.ENTER)
+      print("entered")
 
   def follow(self):
     try:
       # choose your favourite person you followed with xD !
       click_own_profile_button = self.wait.until(
-      ec.presence_of_element_located((By.XPATH,'(//div[@data-visualcompletion="ignore-dynamic"])[3]/div[8]//a')))
+      ec.presence_of_element_located((By.XPATH,'(//div[@data-visualcompletion="ignore-dynamic"])[3]/div[8]//a' )))
       self.rand_time()
       click_own_profile_button.send_keys(Keys.ENTER)
+      # self.human_click(click_own_profile_button)
       self.rand_time()
-      click_following_button = self.wait.until(ec.element_to_be_clickable((By.XPATH, '//span[contains(text(),"Obserwowani")]/ancestor::a/ancestor::div[1]'))) # Polish - English => "Following"
+      click_following_button = self.wait.until(
+        ec.element_to_be_clickable((By.XPATH, '//span[contains(text(),"Obserwowani")]/ancestor::a/ancestor::div[1]')))
       self.rand_time()
-      click_following_buttons = click_following_button.find_elements(By.XPATH, '//span[contains(text(),"Obserwowani")]/ancestor::a/ancestor::div[1]//*') # Polish - English => "Following"
+      click_following_buttons = click_following_button.find_elements(By.XPATH, '//span[contains(text(),"Obserwowani")]/ancestor::a/ancestor::div[1]//*')
       list_ = self.relentless_searcher(click_following_buttons)
       self.relentless_clicker(list_)
+      # click_following_button.send_keys(Keys.ENTER)
+      # click_following_button.click()
+      # self.human_click(click_following_button)
       self.rand_time()
-      click_search_ = self.wait.until(ec.presence_of_element_located((By.XPATH, '//input[contains(@aria-label,"Pole wejściowe")]')))
+      click_search_ = self.wait.until(
+        ec.presence_of_element_located((By.XPATH, '//input[contains(@aria-label,"Pole wejściowe")]')))
       self.rand_time()
       click_search_.send_keys(FAVOURITE_PERSON1)
       self.rand_time()
-      click_fav_button = self.wait.until(ec.element_to_be_clickable((By.XPATH, f'(//a[contains(@href,"{FAVOURITE_ACCOUNT_HREF1}")])[1]')))
+      click_fav_button = self.wait.until(
+        ec.element_to_be_clickable((By.XPATH, f'(//a[contains(@href,"{FAVOURITE_ACCOUNT_HREF1}")])[1]')))
+      '//a[contains(@href,"trash")][1]'
       self.rand_time()
       click_fav_button.send_keys(Keys.ENTER)
+      # self.human_click(click_fav_button)
       self.rand_time()
       # choose her/his followers
-      choose_her_followers_button = self.wait.until(ec.element_to_be_clickable((By.XPATH, '//span[contains(text(),"obserwujących")]')))
+      choose_her_followers_button = self.wait.until(
+        ec.element_to_be_clickable((By.XPATH, '//span[contains(text(),"obserwujących")]')))
       self.rand_time()
       choose_her_followers_buttons = choose_her_followers_button.find_elements(By.XPATH,'//span[contains(text(),"obserwujących")]/ancestor::a/ancestor::div[1]//*')
       list_ = self.relentless_searcher(choose_her_followers_buttons)
       self.relentless_clicker(list_)
-    except (TimeoutException, ElementClickInterceptedException, StaleElementReferenceException, ElementNotInteractableException, AttributeError, ValueError, Exception) as er:
-      print(f'[ERROR] Something went wrong {repr(er)}\n{er.msg}')
+      # self.human_click(choose_her_followers_button)
+      # self.rand_time()
+    except (TimeoutException, AttributeError, ValueError,ElementClickInterceptedException,StaleElementReferenceException,ElementNotInteractableException) as er:
+      print(f'Something went wrong but It\'s ok xD {er}')
+    # input("Strategic debugging input")
 
   def scroller(self):
     """Scroll it! Scroll it properly and righteous! """
@@ -179,36 +200,43 @@ class InstaFollower:
       for _ in buttons[:4]:
         i += 1
         self.rand_time()
-        self.human_click(_)
+        _.click()
+        # self.human_click(_)
     except (TimeoutException, ElementClickInterceptedException,StaleElementReferenceException,ElementNotInteractableException, ValueError,AttributeError, Exception) as er:
       print(f'[ERROR] function follower(), line 196, repr: {repr(er)}\n nor: {er.msg}')
 
   def find_followers(self):
-    try:
-      path = '//div[contains(@role,"dialog")]/div/div/div/div/div[3]'
-      modal = self.wait.until(ec.presence_of_element_located((By.XPATH,path)))
 
-      for _ in range(1,4,1): # range(4) is the same
-        self.driver.execute_script("arguments[0].scrollTo({top: arguments[0].scrollTop + 400, behavior: 'smooth'});", modal)
-        self.rand_time()
-      for _ in range(1,4,1): # range(4) is the same
-        self.driver.execute_script("arguments[0].scrollTo({top: arguments[0].scrollTop - 400, behavior: 'smooth'});", modal)
-        self.rand_time()
+    '''
+    # Source - https://stackoverflow.com/a/42539537
+    # Posted by taha mokfi
+    # Retrieved 2026-04-14, License - CC BY-SA 3.0
 
-    except (TimeoutException, ElementClickInterceptedException, StaleElementReferenceException, ElementNotInteractableException, ValueError, AttributeError, Exception) as er:
-      print(f'[ERROR] function scroller(),  repr(): {repr(er)}\n message: {er.msg}')
+    scr1 = driver.find_element_by_xpath('/html/body/div[2]/div/div[2]/div/div[2]')
+    driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", scr1)
 
-    self.rand_time()
+    ulepszona wersja:
+    # To jest czysta magia JS wewnątrz Selenium
+    driver.execute_script("arguments[0].scrollTo({top: arguments[0].scrollTop + 400, behavior: 'smooth'});", scr1)
+    '''
 
-    try:
-      buttons = self.driver.find_elements(By.XPATH, value='//div[contains(text(),"Obserwuj")]/ancestor::div[1]/ancestor::button')
-      i = 0
-      for _ in buttons[:4]:
-        i += 1
-        self.rand_time()
-        self.human_click(_)
-    except (TimeoutException, ElementClickInterceptedException, StaleElementReferenceException, ElementNotInteractableException, ValueError, AttributeError, Exception) as er:
-      print(f'[ERROR] function follower(), line 196, repr: {repr(er)}\n nor: {er.msg}')
+    # try:
+    buttons = self.driver.find_elements(By.XPATH,value='//div[contains(text(),"Obserwuj")]/ancestor::div[1]/ancestor::button')
+    i = 0
+    for _ in buttons[:4]:
+      i+=1
+      self.rand_time()
+      self.human_click(_)
+    # except (TimeoutException, AttributeError, ValueError,ElementClickInterceptedException,StaleElementReferenceException,ElementNotInteractableException) as er:
+    #   print('Ooops :) while following')
+
+    # try:
+    #   modal = self.wait.until(ec.presence_of_element_located((By.XPATH, '//div[contains(@role,"dialog")]')))
+    #   for _ in range(1,4):
+    #     self.driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", modal)
+    #     self.rand_time()
+    # except (TimeoutException, AttributeError, ValueError,ElementClickInterceptedException,StaleElementReferenceException,ElementNotInteractableException) as er:
+    #   print('Ooops :) while scrolling')
 
   def rand_time(self):
     x = r.uniform(1.2,3)
@@ -216,59 +244,56 @@ class InstaFollower:
     return t.sleep(r.uniform(a=x, b=y))
 
   def user_agent_ver(self):
-    """ returns user-agent """
     ua = self.driver.execute_script("return navigator.userAgent")
     print(f"User-Agent: {ua}")
 
   def human_click(self, element):
-    """ standard Selenium .click() always point at x=0,y=0
-    middle of the button  """
     # fetching button size
     width = element.size['width']
     height = element.size['height']
-    # randomize offset, 20-70% of button size
-    offset_x = r.randint(int(width * 0.2), int(width * 0.7)) - (width / 2)
-    offset_y = r.randint(int(height * 0.2), int(height * 0.7)) - (height / 2)
+
+    # randomize offset, 20-80% of button size
+    offset_x = r.randint(int(width * 0.2), int(width * 0.6)) - (width / 2)
+    offset_y = r.randint(int(height * 0.2), int(height * 0.8)) - (height / 2)
+
     # make a move !
     action = ActionChains(self.driver)
     action.move_to_element_with_offset(element, offset_x, offset_y)
     action.click()
     action.perform()
-    print(f"Button hit at: {offset_x}, {offset_y}")
+    print(f"clicked with offset: {offset_x}, {offset_y}")
 
   def relentless_searcher(self,object):
-    """ Function takes selenium iterable object and return list
+    """ function takes selenium iterable object and return list
     of objects ready to click or enter, you may cal me stupid, why I make my own list ?
-     Because after hundreds of errors I don't trust Selenium objects, that is why xD """
+     because I don't trust Selenium objects, that is why xD """
     tmp_list = []
     index = 0
     for _ in object:
-      index += 1
+      index+=1
       tmp_list.append(_)
-      print(f'[INFO] obj:{index} {_}')
+      print(f'obj:{index} {_}')
     return tmp_list
 
-  def relentless_clicker(self, list_):
-    """Click them all!"""
+  def relentless_clicker(self,list_):
     index = 0
     for _ in list_:
-      index += 1
+      index +=1
       name = _.tag_name
-      # sends click
-      try:
-        self.human_click(_)
-        self.rand_time()
-        print(f'[INFO] Clicked! {index} {name}')
-      except (ElementClickInterceptedException, StaleElementReferenceException, ElementNotInteractableException, Exception) as er:
-        print(f'[INFO] Can\'t click them! {index}')
-      else:
-        print(f'[INFO] object: {index} is clickable ')
-      # sends Enter
       try:
         _.send_keys(Keys.ENTER)
         self.rand_time()
-        print(f'[INFO] Object {index} {name} Entered!')
-      except (ElementClickInterceptedException,StaleElementReferenceException,ElementNotInteractableException, Exception) as er:
-        print(f'[INFO] Can\'t use ENTER on object {index} {repr(er)}')
+        print(f'obj {index} {name} Entered!')
+      except (ElementClickInterceptedException,StaleElementReferenceException,ElementNotInteractableException, ValueError) as er:
+        print(f'Can\'t use ENTER obj {index}')
       else:
-        print(f'[INFO] object: {index} is enterable ')
+        print(f'obj: {index} is enterable ')
+      try:
+        self.human_click(_)
+        self.rand_time()
+        print(f'Clicked! {index} {name}')
+      except (ElementClickInterceptedException,StaleElementReferenceException,ElementNotInteractableException,ValueError) as er:
+        print(f'Can\'t click them! {index}')
+      else:
+        print(f'obj: {index} is clickable ')
+
