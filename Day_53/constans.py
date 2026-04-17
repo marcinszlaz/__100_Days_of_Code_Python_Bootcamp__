@@ -1,0 +1,5 @@
+SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1ohYW8H91gVlGij4ljFQkYBNAhltnkF07bt94soNFAmQ/edit?usp=sharing"
+ZILLOW_URL = "https://appbrewery.github.io/Zillow-Clone/"
+RESPONDENT_LINK = "https://docs.google.com/forms/d/e/1FAIpQLSdVbAnZ-7R5PukxysNiMuYIqabkGXswC0y-MOrLjSnwy6OFRw/viewform?usp=header"
+SPREAD_CREATE_LINK = "https://docs.google.com/forms/d/1WUUhLqU6YgRzWTPZxgCTnFoYCfNnwsTSrxSAI3YuRBI/edit"
+NEXT_SPREAD_LINK =   "https://docs.google.com/forms/d/1WUUhLqU6YgRzWTPZxgCTnFoYCfNnwsTSrxSAI3YuRBI/edit"

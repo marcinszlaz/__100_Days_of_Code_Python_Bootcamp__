@@ -1,3 +1,5 @@
+## ------------------ START ------------------- ##
+
 import undetected_chromedriver as uc
 import os
 from constants import *
@@ -272,3 +274,5 @@ class InstaFollower:
         print(f'[INFO] Can\'t use ENTER on object {index} {repr(er)}')
       else:
         print(f'[INFO] object: {index} is enterable ')
+
+        ## ---------------- THE END ------------------- ##

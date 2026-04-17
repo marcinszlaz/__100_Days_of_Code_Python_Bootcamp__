@@ -1,10 +1,10 @@
 import undetected_chromedriver as uc
 import os
 from constants import *
+import random as r, time as t
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import TimeoutException, SessionNotCreatedException, ElementClickInterceptedException, StaleElementReferenceException, ElementNotInteractableException
 from selenium.webdriver.support import expected_conditions as ec
-import random as r, time as t
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys

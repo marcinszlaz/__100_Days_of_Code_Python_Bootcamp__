@@ -2,6 +2,7 @@
 # because I'm the filthy bot
 
 from selenium.webdriver.chrome.webdriver import WebDriver
+import undetected_chromedriver as uc
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 import os, pathlib
@@ -12,7 +13,6 @@ import random as r, time as t
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.keys import Keys
-import undetected_chromedriver as uc
 
 TINDER_URL="https://tinder.com/"
 user_data_directory = pathlib.Path.cwd() / "chrome_profile"
