@@ -1,5 +1,11 @@
+# You have to make google form yourself, input urls and login/pass
+# into .env and constans.py
+# program can't login into google account, but it's ok, because project doesn't
+# require it
+
 import requests,os,pathlib
 from click import argument
+from scipy.special.cython_special import rel_entr
 
 from constans import *
 from dotenv import load_dotenv
@@ -90,6 +96,45 @@ def rand_time():
   y = r.uniform(1.8,2.3)
   return t.sleep(r.uniform(a=x, b=y))
 
+def relentless_searcher(object):
+  """ Function takes selenium iterable object and return list
+  of objects ready to click or enter, you may cal me stupid, why I make my own list ?
+   Because after hundreds of errors I don't trust Selenium objects, that is why xD """
+  tmp_list = []
+  index = 0
+  for _ in object:
+    index += 1
+    tmp_list.append(_)
+    print(f'[INFO] obj:{index} {_}')
+  return tmp_list
+
+def relentless_clicker(list_,send="xxx"):
+  """Click them all!"""
+  index = 0
+  for _ in list_:
+    index += 1
+    name = _.tag_name
+    # sends click
+    try:
+      human_click(_)
+      rand_time()
+      _.send_keys(send)
+      print(f'[INFO] Clicked! {index} {name}')
+    except (ElementClickInterceptedException, StaleElementReferenceException, ElementNotInteractableException, Exception) as er:
+      print(f'[INFO] Can\'t click them! {index}')
+    else:
+      print(f'[INFO] object: {index} is clickable ')
+    # sends Enter
+    try:
+      _.send_keys(Keys.ENTER)
+      rand_time()
+      print(f'[INFO] Object {index} {name} Entered!')
+    except (ElementClickInterceptedException,StaleElementReferenceException,ElementNotInteractableException, Exception) as er:
+      print(f'[INFO] Can\'t use ENTER on object {index} {repr(er)}')
+    else:
+      print(f'[INFO] object: {index} is enterable ')
+
+
 cleared_prices = []
 def clear_prices(list_: list,print_=False)->list:
   for _ in list_:
@@ -165,16 +210,41 @@ try:
   human_click(login_button)
   print('[INFO] login_button clicked')
   rand_time()
-  input_login = wait.until(ec.element_to_be_clickable((By.XPATH,'//input[@type="email"]')))
-  driver.execute_script("arguments[0].click();",input_login)
-  driver.execute_script(f"arguments[0].value = '{os.getenv("EMAIL")}'",input_login)
-  # action = ActionChains(driver)
+  # --------------- after this moment program doesn't work anymore --------- #
+  # input_login = wait.until(ec.element_to_be_selected((By.XPATH,'//input[@type="email"]')))
+  # input_login = wait.until(ec.element_to_be_selected(driver.find_element(By.ID,'//input[contains(@id,"identifier")]')))
+  input_login = wait.until(ec.presence_of_all_elements_located((By.XPATH,"//input")))
+  list_ = relentless_searcher(input_login)
+  relentless_clicker(list_)
+
+
+  """
+  // Skoro jest aktywny, spróbuj mu po prostu "wlać" tekst do środka
+  document.activeElement.value = "twoj_mail@gmail.com";
+  // I teraz najważniejsze - musisz "szturchnąć" stronę, żeby zauważyła zmianę
+  document.activeElement.dispatchEvent(new Event('input', { bubbles: true }));
+  document.activeElement.dispatchEvent(new Event('change', { bubbles: true }));
+  """
+  script =  """
+               document.activeElement.value = arguments[0];
+               document.activeElement.dispatchEvent(new Event('input', { bubbles: true }));
+               document.activeElement.dispatchEvent(new Event('change', { bubbles: true }));
+            """
+  script_ = """
+              arguments[0].value = arguments[1]; arguments[0].dispatchEvent(new Event('input', { bubbles: true })); arguments[0].dispatchEvent(new Event('change', { bubbles: true }));
+           """
+  driver.execute_script(script,os.getenv("EMAIL"))
+  print('script executed')
+
+  # driver.execute_script("arguments[0].click();",input_login)
+  # driver.execute_script(f"arguments[0].value = '{os.getenv("EMAIL")}'",input_login)
+  # # action = ActionChains(driver)
   # action.move_to_element(input_login).click().perform()
   # input_login.click()
   # human_click(input_login)
-  input_login.send_keys(os.getenv("EMAIL"))
+  # input_login.send_keys(os.getenv("EMAIL"))
   rand_time()
-  input_login.send_keys(Keys.ENTER)
+  # input_login.send_keys(Keys.ENTER)
   print('[INFO] login typed')
   rand_time()
   input_password = wait.until(ec.presence_of_element_located((By.XPATH,'//input[@type="password"]')))
@@ -191,6 +261,13 @@ try:
   human_click(display_in_spreadsheet)
   print('[INFO] display_button clicked')
 except (TimeoutException, Exception) as er:
-  print(f'[ERROR] something went wrong {repr(er)}\n{er.msg}')
+  print(f'[ERROR] something went wrong {repr(er)}\n{er}')
+  # print(input_login)
+  # print(type(input_login))
+  # if input_login:
+  #   print('True')
+  # else:
+  #   print('False')
+
 
 _tactical_input = input('Give some cooKeys! :)')

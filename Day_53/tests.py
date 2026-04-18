@@ -1,4 +1,27 @@
 import html
+
+import time
+
+# 1. Znajdź kontener (często to div z atrybutem jsname="WNo9db" lub podobnym)
+# Szukamy diva, który jest nad inputem
+div_container = driver.find_element(By.XPATH, "//input[@type!='hidden']/parent::div")
+
+# 2. Kliknij w diva, żeby "obudzić" formularz
+driver.execute_script("arguments[0].click();", div_container)
+time.sleep(0.5) # Daj mu chwilę na reakcję
+
+# 3. Teraz Twój skrypt z bąbelkowaniem, ale z wymuszonym focusem
+final_script = """
+    const el = arguments[0];
+    el.focus();
+    el.value = arguments[1];
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+    el.dispatchEvent(new Event('change', { bubbles: true }));
+    el.blur(); // Odznacz, żeby strona przeliczyła zmiany
+"""
+driver.execute_script(final_script, input_login, os.getenv("EMAIL"))
+
+
 """
 # Znajdź pole (użyj bardzo ogólnego XPATHa, bo Google ma specyficzne nazwy)
 login_input = wait.until(ec.presence_of_element_located((By.NAME, "identifier")))
