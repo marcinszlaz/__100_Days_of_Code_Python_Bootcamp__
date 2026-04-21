@@ -1,0 +1,17 @@
+/*      css file    */
+body{
+    background-color: aqua;
+}
+
+table {
+    border-spacing: 20px;
+}
+
+img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid purple;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}

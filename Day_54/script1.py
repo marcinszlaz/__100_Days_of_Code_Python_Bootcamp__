@@ -15,9 +15,13 @@
 # it means if special attribute (__name__) equal __main__ run app.run()
 # app.run() means the same as console `flask --app <nazwa> run`
 
-
 from flask import Flask
 import time
+import pathlib,os
+from dotenv import load_dotenv
+
+dotenv_path = pathlib.Path.cwd() / '.env'
+load_dotenv(dotenv_path=dotenv_path)
 
 app = Flask(__name__)
 
@@ -28,5 +32,12 @@ print('name of other time.__name__',time.__name__)
 def hello_world():
     return "<p>Hello, World!</p>"
 
+@app.route("/boobs")
+def hit_like():
+    return "booobs xD"
+
+# this code below ensures you're running current file
 if __name__ == "__main__": # it runs application without terminal, using magic `green arrow` :)
-    app.run(host="0.0.0.0")
+    app.run(host=f"{os.getenv("HOST_IP")}") # my ip address in LAN, by default
+    # flask run only on localhost, other computers in network can't
+    # see www server

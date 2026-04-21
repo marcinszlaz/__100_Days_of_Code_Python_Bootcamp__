@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Marcin's Personal Site</title>
+<!--    <link rel="stylesheet" href="static/css/styles.css">-->
+<!--      we do it this way in Flask-->
+<!--      instead of scr="..." or hre="..."
+we use function src/href = "{{url_for('static',filename='file_path')}}"-->
+    <link rel="stylesheet" href="{{url_for('static',filename='/css/styles.css')}}">
+  </head>
+
+  <body>
+    <table>
+      <tr>
+        <td><img src="{{url_for('static',filename='/images/photo.png')}}" alt="marcin profile picture" width=200></td>
+        <td><h1>Marcin Szlaz</h1>
+        <p><em>Lazy, unemployed bastard xD <strong><a href="https://pornhub.com">The App Brewery</a></strong>.</em></p>
+        <p>I am trying to be Developer. I ❤️ coffee and drinking beer and vodka.</p></td>
+      </tr>
+    </table>
+    <hr>
+    <h3>Books, sport, meditation, music</h3>
+    <ul>
+      <li>The Complete Udemy Excel Bootcamp</li>
+      <li>The Complete Udemy Python Bootcamp</li>
+      <li>The Complete Udemy Linux Server Bootcamp</li>
+    </ul>
+    <hr>
+    <h3>Work Experience</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Dates</th>
+          <th>Work</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2007-2024</td>
+          <td>CEO of Wind Splitting Institute</td>
+        </tr>
+        <tr>
+          <td>2024-2025</td>
+          <td>Alive project documentation</td>
+        </tr>
+        <tr>
+          <td>2025-2026</td>
+          <td>Unemployed and proud of it! xD</td>
+        </tr>
+      </tbody>
+    </table>
+    <hr>
+    <h3>Skills</h3>
+    <table>
+      <tr>
+        <td>Python Development</td>
+        <td>⭐️⭐️⭐️⭐️⭐️</td>
+      </tr>
+      <tr>
+        <td>Linux Administration </td>
+        <td>⭐️⭐️⭐️⭐️⭐️</td>
+      </tr>
+       <tr>
+        <td>Programming</td>
+        <td>⭐️⭐️⭐️⭐️⭐️</td>
+           <tr>
+                <td>Python</td>
+                <td>SQL</td>
+                <td>HTML/CSS</td>
+                <td>javaScript</td>
+           </tr>
+       </tr>
+        <tr>
+        <td>Porno*raphy</td>
+        <td>⭐️⭐️</td>
+        </tr>
+    </table>
+    <hr>
+    <a href="#">My Hobbies</a>
+    <a href="#">Contact Me</a>
+  </body>
+</html>
