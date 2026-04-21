@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stronka Marcysia</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='/style.css')}}" />
+</head>
+    <body>
+
+    <h1>Hello World!</h1>
+    <h3>You can with ease create url to blog</h3>
+    <!-- you can use your own function from main.py inside 2*{  2*} -->
+    <!-- if you use {x2 }x2 you get error even if it in comments -->
+    {# this is comments in jinja, it doesn't raise error when you use {{ }} xD #}
+    {# you can use your own function from main.py inside {{ }} #}
+    {# you can call for variables too and even modify they, look at `num` #}
+     <a href="{{ url_for ('get_blog',num=3) }}">Got to blog</a>
+
+    <footer>
+        <hr>
+        <strong>Copyright {{year}} by Marcyś&copy; </strong>
+        <hr>
+    </footer>
+
+
+    </body>
+</html>

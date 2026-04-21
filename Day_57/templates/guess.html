@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Guess</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='/style.css')}}" />
+</head>
+    <body>
+        <header>
+          <h1>Hey {{name.title()}}</h1>
+          <h2>I think you are {{gender}}</h2>
+          <h3>And maybe {{age}} years old</h3>
+        </header>
+    <footer>
+        <hr>
+        <strong>Copyright {{year}} by Marcyś&copy; </strong>
+        <hr>
+    </footer>
+
+
+    </body>
+</html>
