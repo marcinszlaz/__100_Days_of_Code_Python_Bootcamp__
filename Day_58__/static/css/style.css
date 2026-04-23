@@ -1,0 +1,102 @@
+.gradient-background {
+  background: linear-gradient(300deg, #00bfff, #ff4c68, #ef8172);
+  background-size: 180% 180%;
+  animation: gradient-animation 18s ease infinite;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.icon-square {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.75rem;
+
+}
+
+.profile-img {
+  height: 100px;
+  border-radius: 50%;
+}
+
+.profile-img-mod
+{
+    width: 400px;
+    margin-left: 100px;
+    margin-top: 40px;
+}
+
+#title
+{
+    border: 2px solid black;
+}
+
+#mainTextH
+{
+    font-weight: bold;
+    font-size: 3.5rem;
+    color: black;
+}
+
+#mainTextD
+{
+    /* flexbox way */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 5px none red;
+    /*
+    old school way
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    */
+}
+
+#secondTextD
+{
+    border: 5px none green;
+}
+
+#btn
+{
+    margin: 10px;
+    width: 200px;
+    height: 60px;
+    text-align: left;
+    font-size: 1.5rem;
+    /* border: 3px solid black; */
+}
+
+#btn1
+{
+    margin: 10px;
+    width: 200px;
+    height: 60px;
+    border: 3px solid white;
+    text-align: left;
+    font-size: 1.5rem;
+}
+
+.center
+{
+    display: flex;
+    /* justify-contents: center; */
+    align-items: center;
+    width: 100%;
+}
+
+#testimonial
+{
+    width: 100%;
+}

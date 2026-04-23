@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap</title>
+  <!-- TODO 1: Add the Bootstrap link here. -->
+  <!--  link from getbootstrap.com-->
+  <link rel="stylesheet" href="../static/css/styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <!-- {{ url_for('static', filename='style.css') }} -->
+  <style>
+    div.flex-container h3
+    {
+        color: red;
+    }
+  </style>
+<!--    /* TODO 4: Use flexbox to center the card in the vertical and horizontal center. */-->
+<!--    /* `mx-auto p-2` you can use these classes instead of card class, they center */-->
+<!--    /* or overwrite class flex-container in inline css, internal css (here) or */-->
+<!--    /* external css in another file => this is the best practice */-->
+</head>
+
+<body>
+
+  <div class="flex-container">
+     <!-- TODO 2: Add the Bootstrap Prebuilt Card here -->
+     <!-- TODO 3: Change the image src to display the flower.jpg image. -->
+    <h3> Przykladowy tekst</h3>
+    <div class="card" style="width: 18rem;">
+       <img src="../static/flower.jpg" class="card-img-top" alt="sun flower">
+       <div class="card-body">
+       <h5 class="card-title">Sun Flower</h5>
+       <p class="card-text">Pestki słonecznika to bogactwo witaminy E (witamina młodości), nienasyconych kwasów tłuszczowych, fitosteroli oraz składników mineralnych takich jak cynk, żelazo i magnez. Wpływają korzystnie na serce, obniżając poziom cholesterolu, wspierają układ nerwowy i kondycję skóry</p>
+       <a href="#" class="btn btn-primary">Go somewhere</a>
+       </div>
+     </div>
+  </div>
+
+  <!-- script link from getbootstrap.com -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>
