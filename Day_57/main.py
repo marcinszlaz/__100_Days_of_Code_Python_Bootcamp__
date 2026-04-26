@@ -3,6 +3,11 @@ import datetime as dt
 from flask import Flask, render_template
 from datetime import date as d
 import requests
+import os,pathlib
+from dotenv import load_dotenv
+
+dotenv_path = pathlib.Path.cwd() / '.env'
+load_dotenv(dotenv_path=dotenv_path)
 
 AGE_URL = "https://api.agify.io/"
 GEN_URL = "https://api.genderize.io/"
@@ -44,4 +49,4 @@ def get_blog(num):
   return render_template("blog.html", year=year, posts=blog)
 
 if __name__ == "__main__":
-  app.run(debug=True,host="10.215.14.2",port=80)
+  app.run(debug=True,host=f"{os.getenv("HOST_IP")}",port=80)

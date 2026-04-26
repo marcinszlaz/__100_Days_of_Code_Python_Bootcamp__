@@ -1,6 +1,11 @@
 from flask import Flask, render_template
 import requests
 from datetime import datetime as dt
+import os,pathlib
+from dotenv import load_dotenv
+
+dotenv_path = pathlib.Path.cwd() / '.env'
+load_dotenv(dotenv_path=dotenv_path)
 
 # year
 year = dt.now().year
@@ -37,4 +42,4 @@ def display_post(post_id):
   return render_template('post.html',post_id=post_id,blogs=blogs)
 
 if __name__ == "__main__":
-  app.run(debug=True,host="10.215.14.2",port=80)
+  app.run(debug=True,host=f"{os.getenv("HOST_IP")}",port=80)

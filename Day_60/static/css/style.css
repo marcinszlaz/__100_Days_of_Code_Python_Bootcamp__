@@ -1,0 +1,33 @@
+body
+{
+    margin: 0px;
+    padding: 0px;
+    background-color: rgb(210,220,220);
+}
+
+h1
+{
+    margin-left: 25px;
+    padding: 25px;
+}
+h1.first-letter::first-letter
+{
+    font-weight: bold;
+    font-size: 3rem;
+}
+#name
+{
+    font-size:20px;
+    font-style: italic;
+}
+#pass
+{
+    font-size:20px;
+    font-style: italic;
+}
+
+fieldset,input,button
+{
+    font-weight: bold;
+    font-size: 1.3rem;
+}

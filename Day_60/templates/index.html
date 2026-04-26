@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forms</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.5">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='/css/style.css') }}"/>
+
+</head>
+<body>
+<h1 class="first-letter"> It's working properly<br />I guess ;-)</h1>
+<hr />
+
+<form method="post" action="{{ url_for('receive_data') }}"> <!-- <form action="login.php" method="post"> form can trigger actions, we know post method, right ? :) -->
+    <!-- action="/login" it is also correct  -->
+    <fieldset> <!-- it's basically field with inputs-->
+        <legend>Type your data</legend>
+        <label for="name" title="type your name">Name</label>
+        <input name="user_login" title="type your name" autocomplete="off" required autofocus  id="name" type="text" placeholder="yourName"></input>
+        <label for="pass" title="type your password">Password</label>
+        <input  name="user_password" title="type your password" autocomplete="off" required  id="pass" type="password" placeholder="yourPassword"></input>
+        <!-- label for="xxx" input id="xxx" they are connected by for/id -->
+        <button type="submit">Submit</button>
+    </fieldset>
+</form>
+<!--<input type="submit" value="Send"> - obsolete, use this below-->
+
+</body>
+</html>
