@@ -25,9 +25,9 @@ response = requests.get(url=url,headers=headers)
 blogs = response.json()
 
 #sending mail
-def send_email(msg: str):
+def send_email(msg: str,a,b,c):
   recipent = f"{os.getenv('MY_EMAIL')}"
-  message = f"""Subject: Marcin\'s Blog\n\n{msg}""".encode("UTF-8")
+  message = f"""Subject: Marcin\'s Blog\n\n{msg}\n{a}\n{b}\n{c}""".encode("UTF-8")
   with sm.SMTP(host=os.getenv("SMTP"), port=os.getenv("MY_PORT") ) as conn:
     conn.starttls()
     conn.login(user=os.getenv('MY_EMAIL'),password=os.getenv('MY_PASSWORD'))
@@ -59,7 +59,7 @@ def contact():
     userPhone = request.form['userPhone']
     userMessage = request.form['userMessage']
     nm.send_email(subject=f"Marcin's Blog", message = userMessage)
-    send_email(userMessage)
+    send_email(userMessage,userName,userEmail,userPhone)
     return render_template('contact.html', userName=userName, userEmail=userEmail, userPhone=userPhone, userMessage=userMessage, year=year, contact=contact)
 
 @app.route('/post/<int:post_id>')

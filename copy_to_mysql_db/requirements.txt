@@ -1,0 +1,4 @@
+pandas==3.0.2
+prettytable==3.17.0
+python-dotenv==1.2.2
+SQLAlchemy==2.0.30

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>{% block title %}Title{% endblock %}</title>
+        <!-- block name doesn't matter, you have to use `block`
+         your name and after that close the block endblock -->
+    <style>
+        {% block style %}
+            {{ bootstrap.load_css() }} <!-- from bootstrap-flask -->
+        {% endblock %}
+    </style>
+    {% endblock %}
+</head>
+<body>
+
+    {% block content %}
+
+        Valuable Content Inside!
+
+
+    {% endblock %}
+
+    {% block script %}
+        {{ bootstrap.load_js() }} <!-- from bootstrap-flask -->
+    {% endblock %}
+</body>
+</html>

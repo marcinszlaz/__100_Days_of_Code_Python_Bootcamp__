@@ -7,7 +7,7 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.chrome.options import Options
 import random as r, time as t, pathlib
 from selenium.webdriver.common.keys import Keys # you can use keys on www with this black magic library
-
+t
 COOKIE_URL="https://ozh.github.io/cookieclicker/"
 user_data_dir = pathlib.Path.cwd() / "chrome_profile"
 c_count = 0

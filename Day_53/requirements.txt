@@ -1,0 +1,7 @@
+beautifulsoup4==4.14.3
+click==8.1.7
+python-dotenv==1.2.2
+Requests==2.33.1
+scipy==1.17.1
+selenium==4.43.0
+undetected_chromedriver==3.5.5

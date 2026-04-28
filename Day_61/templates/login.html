@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %} Login {% endblock %}
+	{% block content %}
+		<a href="{{ url_for('home') }}">Home Page</a>
+        <div class="container">
+		<h1>Login</h1>
+			<form method="POST" action="{{ url_for('login') }}" novalidate>
+				{{ form.csrf_token }} <!-- it's about security reasons  more about it => https://owasp.org/www-community/attacks/csrf -->
+				{# form.email.label #} {# form.email(size=30,placeholder="myEmail",autocomplete=False, focus=True, required=True,title="_obsoleteDontUseIt_") #}
+ 				{# form.password.label #} {# form.password(size=30,placeholder="myPassword",autocomplete=False, required=True, type="password", title="_obsoleteDontUseIt_") #}
+				<br>
+				<p>{{ form.email_.label }} {{ form.email_(size=30,placeholder="myEmail",autocomplete=False, required=True,
+					title="_RightWay_UseIt_") }}</p>
+				{% for err in form.email_.errors %}
+				<span style="color:red"> {{ err }}</span>
+				{% endfor %}
+				<p>{{ form.password_.label }} {{ form.password_(size=30,placeholder="myPassword",autocomplete=False,
+					required=True, type="password", title="_RightWay_UseIt_") }}</p>
+				{% for err in form.password_.errors %}
+				<span style="color:red"> {{ err }}</span>
+				{% endfor %}
+				<p>{{ form.confirm_.label }} {{ form.confirm_(size=30,placeholder="confirmPassword",autocomplete=False,
+					required=True, type="password", title="_RightWay_UseIt_") }}</p>
+				{% for err in form.confirm_.errors %}
+				<span style="color:red"> {{ err }}</span>
+				{% endfor %}
+				{{ form.submit_.label }} {{ form.submit_ }}
+				<!-- input type="submit" value="Go">-->
+			</form>
+        </div>
+
+		<h1> Curious thing :-)</h1>
+		<p>rendering all inputs and buttons by two line of code :-)<br>less control but much much faster</p>
+		{% from 'bootstrap4/form.html' import render_form %}
+		{{ render_form(form) }}
+	{% endblock %}

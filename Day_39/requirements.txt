@@ -1,0 +1,7 @@
+oauthlib==3.3.1
+pandas==3.0.2
+python-dotenv==1.2.2
+Requests==2.33.1
+requests_oauthlib==2.0.0
+twilio==9.1.1
+yos_social_sdk==0.0.2
