@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+<!--Don't forget your import here-->
+{% block title %}Add A New Cafe{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-8">
+
+      <h1>Add a new cafe into the database</h1>
+      <!-- This is where your WTForm will go -->
+      {% from 'bootstrap5/form.html' import render_form %}
+      <!-- {* render_hidden_erros *} -->
+        <!-- you have to define list above render_form(form) -->
+        <datalist id="power">
+          <option value="🔌"></option>
+          <option value="🔌🔌"></option>
+          <option value="🔌🔌🔌"></option>
+          <option value="🔌🔌🔌🔌"></option>
+          <option value="🔌🔌🔌🔌🔌"></option>
+        </datalist>
+      {{ render_form(form,button_style='secondary', button_size='lg',novalidate=True) }}
+      <!-- {* render_hidden_errors(form) *} -->
+	  <p class="space-above"><a class="homeReturn" href="{{ url_for('home') }}">See all cafes</a></p>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+<!-- out of endblock those code below doesn't render on browser-->
+<!-- tests with list inside other tags -->
+<!-- with value attr filled you have remove value before datalist show up -->
+<label for="chooser" title="DATALIST">Choose your power</label>
+<input list="myList" value="" id="chooser"  name="myList1" title="DATALIST">
+  <!-- it (input) doesn't work with select, only with datalist -->
+  <datalist id="myList">
+    <option value="💪"></option>
+    <option value="💪💪"></option>
+    <option value="💪💪💪"></option>
+    <option value="💪💪💪💪"></option>
+    <option value="💪💪💪💪💪"></option>
+  </datalist>
+<!--
+<select name="amIselectAnyThing" id="myList1">
+  <option value=""></option>
+  <option value="">☕</option>
+  <option value="">☕☕</option>
+  <option value="">☕☕☕</option>
+  <option value="">☕☕☕☕</option>
+  <option value="">☕☕☕☕☕</option>
+</select>
+-->
+<label for="selector" title="SELECT">Select your coffe strength</label>
+<select name="amIselectAnyThing" id="selector" title="SELECT">
+  <option value=""></option>
+  <option value="">☕</option>
+  <option value="">☕☕</option>
+  <option value="">☕☕☕</option>
+  <option value="">☕☕☕☕</option>
+  <option value="">☕☕☕☕☕</option>
+</select>
+
+<form id="blog" action="#" method="POST">
+    <button type="submit">Zapisz post</button>
+</form>
+<!-- This select is out from form, but thanks form="blog" it'll be send! -->
+<select name="status" form="blog">
+    <option value="Opcja1">Opcja1</option>
+    <option value="Opcja2">Opcja2</option>
+    <option value="Opcja3">Opcja3</option>
+    <option value="Opcja4">Opcja4</option>
+    <option value="Opcja5">Opcja5</option>
+</select>

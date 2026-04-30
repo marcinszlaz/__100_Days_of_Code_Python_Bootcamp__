@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    {% block styles %}
+    <!-- Link to the styles.css here to apply styling to all the child templates.-->
+    <!-- Load Bootstrap-Flask CSS here -->
+    {{ bootstrap.load_css() }} <!-- https://bootstrap-flask.readthedocs.io/en/stable/basic/#starter-template -->
+    <link href="{{ url_for('static',filename='css/styles.css') }}" rel="stylesheet" type="text/css"/>
+    {% endblock %}
+    <style>{% block internal_style %} {% endblock %}</style>
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+      <!-- you have to define list above render_form(form) -->
+      <datalist id="coffee">
+        <option value="☕"></option>
+        <option value="☕☕"></option>
+        <option value="☕☕☕"></option>
+        <option value="☕☕☕☕"></option>
+        <option value="☕☕☕☕☕"></option>
+      </datalist>
+
+    {% block content %}
+
+    {% endblock %}
+  <body>
+
+    {% block script %}
+    {{ bootstrap.load_js() }} <!-- from bootstrap-flask -->
+    <!-- https://bootstrap-flask.readthedocs.io/en/stable/basic/#starter-template -->
+  </body>
+    {% endblock %}
+</html>
