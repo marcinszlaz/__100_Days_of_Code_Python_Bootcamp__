@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Library</title>
+  </head>
+  <body>
+    <h1>My Library</h1>
+    <p> Printed from dictionary:</p>
+    {% if all_books %}
+      <ul>
+        {% for book in all_books %}
+        <li>{{ book.values() | join(" - ") }} </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Dictionary is empty.</p>
+    {% endif %}
+    <!-- book.title, book.author are ok too, you can use book.values() {*book['title']*}  -  {*book['author']*}  -  {*book['rating']*}  -->
+    <p>Printed from SQLite:</p>
+      <!--
+          print(f"{tuple_[0]} - {tuple_[1]} - {tuple_[2]}" )
+          book[0] - book[1] - book[2] {} removed intentionally
+          result_list_comp = " - ".join([str(t) for t in tuple_])
+          result_map = " - ".join(map(str,tuple_))
+          <p>{ tuple_ | map('string') | join(' - ') }</p>
+          all statements above give the sam result
+          in jinja they are writing in other way
+       -->
+      {% if show_books %}
+        <ul>
+          <!--<li>{*book[0]*} - {*book[1]*} - {*book[2]*} </li>-->
+          {% for book in show_books %}
+          <li>{{ book | map('string') | join(' - ') }}
+          <a href="#">Edit Rating</a></li>
+        {% endfor %}
+        </ul>
+      {% else %}
+        <p>Database is empty.</p>
+      {% endif %}
+
+    <a href="{{ url_for('add') }}">Add New Book</a>
+  </body>
+</html>
+

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Environment</title>
+</head>
+<body>
+    {* bootstrap.load_css() *}
+    <h1> We'll test here new/old concepts and figure out<br>why they doesn&apos;t work</h1>
+
+    {* from 'bootstrap5/form.html' import render_form *}
+    {* render_form() *}
+    <p>Select</p>
+    <select name="selector" id="select" form="blog">
+        <option value="">1</option>
+        <option value="">2</option>
+        <option value="">3</option>
+        <option value="">4</option>
+        <option value="">5</option>
+    </select>
+
+    <datalist id="data">
+        <option value="1">1</option>
+        <option value="1">1</option>
+        <option value="1">1</option>
+    </datalist>
+
+    <form id="blog">
+        <fieldset>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" >
+            <label for="random-input">Input something here</label>
+            <input type="text" id="random-input" list="data">
+        </fieldset>
+    </form>
+    <p>Why, &lt;datalist&gt; work here properly with input in form<br>
+    and at add.html it doesn&amp;t work properly?</p>
+    {* bootstrap.load_js() *}
+</body>
+</html>
