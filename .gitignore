@@ -302,3 +302,4 @@ __marimo__/
 *.json
 token.txt
 chrome_profile/
+*.db

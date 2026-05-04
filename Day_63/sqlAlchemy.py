@@ -54,6 +54,3 @@ with app.app_context():
   # book_to_delete = db.session.execute(Books, book_id)
   db.session.delete(book_to_delete)
   db.session.commit()
-
-
-

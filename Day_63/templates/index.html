@@ -3,19 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <title>Library</title>
+    <style>
+      span#books {
+        font-weight: bold;
+      }
+      a {
+        text-decoration: none;
+        color: teal;
+      }
+    </style>
   </head>
   <body>
     <h1>My Library</h1>
+    <!--
     <p> Printed from dictionary:</p>
-    {% if all_books %}
+    {* if all_books *}
       <ul>
-        {% for book in all_books %}
-        <li>{{ book.values() | join(" - ") }} </li>
-        {% endfor %}
+        {* for book in all_books *}
+        <li>{* book.values() | join(" - ") *} </li>
+        {* endfor *}
       </ul>
-    {% else %}
+    {* else *}
       <p>Dictionary is empty.</p>
-    {% endif %}
+    {* endif *}
+    -->
     <!-- book.title, book.author are ok too, you can use book.values() {*book['title']*}  -  {*book['author']*}  -  {*book['rating']*}  -->
     <p>Printed from SQLite:</p>
       <!--
@@ -28,13 +39,17 @@
           in jinja they are writing in other way
        -->
       {% if show_books %}
-        <ul>
+        <ol>
           <!--<li>{*book[0]*} - {*book[1]*} - {*book[2]*} </li>-->
+          <!-- {* book | map('string') | join(' - ') *} -->
           {% for book in show_books %}
-          <li>{{ book | map('string') | join(' - ') }}
-          <a href="#">Edit Rating</a></li>
+          <li>
+            <a href="{{url_for('delete',buuk_ajdi=book[0]) }}">Delete</a>
+            <span id="books">{{ book[1:] | map('string') | join(' - ') }} /10</span>
+            <a href="{{ url_for('edit',id_=book[0]) }}">Edit Rating</a>
+          </li>
         {% endfor %}
-        </ul>
+        </ol>
       {% else %}
         <p>Database is empty.</p>
       {% endif %}

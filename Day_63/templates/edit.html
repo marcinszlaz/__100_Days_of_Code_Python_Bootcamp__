@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Add Book</title>
+    <title>Edit rating</title>
   </head>
   <body>
     <datalist id="rating">
@@ -17,19 +17,19 @@
       <option value="9">9</option>
       <option value="10">10</option>
     </datalist>
-    <form  method="POST" action="{{ url_for('add') }}">
+
+    <p>Book Name: {{ title_and_review[0][0] }}</p>
+    <p>Current Rating: {{ title_and_review[0][1] }}</p>
+    <form  method="POST" action="{{ url_for('edit') }}">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"> <!-- it is a function from flask WTF from CSRFProtect, it works independently apart wtf forms -->
-      <label for="book-input">Book Name</label>
-      <input type="text" name="title" id="book-input" required/>
-      <label for="author-input">Book Author</label>
-      <input type="text" name="author" id="author-input" required/>
-      <label for="rating-input">Rating</label>
-      <input type="text" id="rating-input" list="rating" name="review" required pattern="1|2|3|4|5|6|7|8|9|10"/>
-      <button type="submit">Add Book</button>
+      <input type="hidden" name="b_id" value="{{ title_and_review[0][2] }}">
+      <label for="rating-input">Type New Rating</label>
+      <input type="text" id="rating-input" list="rating" name="rating-update" required pattern="1|2|3|4|5|6|7|8|9|10"/>
+      <button type="submit">Change rating</button>
 
     </form>
 
-<!--  <p>List of Dict: {* all_books *}</p>-->
+<!--  <p>List of Dict: {{ all_books }}</p>-->
   <br>
   <a href="{{ url_for('home') }}">Home Page</a>
   </body>
