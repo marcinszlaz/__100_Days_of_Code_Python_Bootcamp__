@@ -1,9 +1,22 @@
 {% extends 'base.html' %}
-
+{% from 'bootstrap5/form.html' import render_form %}
+{% block styles %}
+{{ super() }}
+<style>
+    a {
+        text-decoration: none;
+    }
+    a:hover {
+        font-weight: bold;
+    }
+</style> <!-- nope, not here xD -->
+{% endblock %}
 {% block title %}Add Movie{% endblock %}
 
 {% block content %}
 <div class="content">
     <h1 class="heading">Add a Movie</h1>
+    {{ render_form(form, novalidate=True) }}
 </div>
 {% endblock %}
+<!-- form.movie-title.data is equal form.data.get('movie-title') -->
