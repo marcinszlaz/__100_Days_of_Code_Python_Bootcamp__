@@ -1,7 +1,9 @@
 # TODO error with adding existing film to database - take care of it,
 # maybe new route with nice info ?
 # region Imports
-from flask import Flask, render_template, redirect, url_for, request
+from idlelib.run import flush_stdout
+
+from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
@@ -166,6 +168,12 @@ def add():
   form = Add()
   if form.validate_on_submit():
     title = form.title.data
+    with app.app_context():
+      is_movie_exists = db.session.execute(db.select(Movie).where(Movie.title == title)).scalar()
+      if is_movie_exists:
+        flash(message="This film is exist in your collection!")
+        msg = "Wrong!"
+        return redirect(url_for('add',msg=msg))
     movie_dict = movie_searcher_by_title(title)
     return render_template('select.html',movie_dict=movie_dict[0]['results'])
   return render_template('add.html',form=form)
@@ -188,12 +196,19 @@ def seek():
   description = movie_dict[0].get('overview')
   movie = Movie(title=title,year=year,img_url=img_url, description=description)
   with app.app_context():
-    db.session.add(movie)
-    db.session.commit()
-  id_ = db.session.execute(db.select(Movie.id).where(Movie.title == title)).scalar()
-  return redirect(url_for('edit',id_ = id_))
+    try:
+      db.session.add(movie)
+      db.session.commit()
+    except IntegrityError as er:
+      print('Film is exists in database')
+      flash(message="Film is already exists in your database add another one")
+      return redirect(url_for('add'))
+    else:
+      id_ = db.session.execute(db.select(Movie.id).where(Movie.title == title)).scalar()
+      return redirect(url_for('edit',id_ = id_))
 # endregion
 # region Name Check
 if __name__ == '__main__':
   app.run(debug=True, host=os.getenv("HOST_IP"), port=os.getenv("HOST_PORT"))
 #endregion
+
