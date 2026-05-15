@@ -1,0 +1,35 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="box">
+  <h1>Login</h1>
+  <!-- TODO: Use Message Flashing to display feedback to the user with a <p> -->
+
+    {% if error %}
+      <p class="error"> <strong>Error:</strong> {{ error }} </p>
+    {% endif %}
+  {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <p class="error">
+        <ul class="flashes" style="color: teal; list-style-type: none">
+          {% for message in messages %}
+            <li> {{ message }} </li>
+          {% endfor %}
+        </ul>
+        </p>
+      {% endif %}
+    {% endwith %}
+  <form action="{{ url_for('login') }}" method="post">
+    <input type="text" name="email" placeholder="Email" required="required" />
+    <input
+      type="password"
+      name="password"
+      placeholder="Password"
+      required="required"
+    />
+    <button type="submit" class="btn btn-primary btn-block btn-large">
+      Let me in.
+    </button>
+  </form>
+</div>
+
+{% endblock %}

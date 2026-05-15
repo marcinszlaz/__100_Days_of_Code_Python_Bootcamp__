@@ -93,7 +93,7 @@ def add_new_post():
         return jsonify(ERROR=f"--Database Error {er}"),403
       else:
         return redirect(url_for('get_all_posts'))
-  return render_template('make-post.html',form=form)
+  return render_template('make-post.html',form=form, date=date)
 # endregion
 # region--edit-post--
 # TODO: edit_post() to change an existing blog post
