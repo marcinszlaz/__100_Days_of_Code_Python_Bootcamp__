@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            <!-- Tab Header -->
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h3 class="card-title mb-0">📅 Mein Schedule</h3>
+                </div>
+
+                <!-- Calendar hull -->
+                <div class="card-body p-4">
+
+                    <!--
+                      Używamy filtra |safe, ponieważ Flask domyślnie "ucieka" (escapuje) kod HTML ze zmiennych dla bezpieczeństwa.
+                      Bez |safe na stronie zobaczyłbyś surowe znaczki <table>, a nie wyrenderowany kalendarz.
+                    -->
+                    <div class="calendar-wrapper table-responsive">
+                        {{ calendar_table|safe }}
+                    </div>
+
+                </div>
+
+                <!-- return to main page -->
+                <div class="card-footer bg-light text-center py-3">
+                    <a href="{# url_for('index') #}" class="btn btn-outline-secondary btn-sm">
+                        Home Page
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Prosty tuning wizualny dla tabeli generowanej przez Pythona -->
+<style>
+    /* Stylowanie całej tabeli kalendarza */
+    .calendar-wrapper table {
+        width: 100%;
+        margin-bottom: 0;
+    }
+
+    /* Nazwa miesiąca na samej górze tabeli */
+    .calendar-wrapper th.month {
+        font-size: 1.4rem;
+        padding: 15px 0;
+        color: #495057;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Nazwy dni tygodnia (Pn, Wt, Śr...) */
+    .calendar-wrapper .month tr:nth-child(2) th {
+        background-color: #f8f9fa;
+        color: #6c757d;
+        font-weight: 600;
+        padding: 10px 0;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    /* Stylowanie poszczególnych komórek z dniami */
+    .calendar-wrapper td {
+        width: 14.28%; /* Równe rozłożenie 7 dni w tygodniu */
+        height: 60px;   /* Nadajemy wysokość, żeby dni były kwadratowe/przestrzenne */
+        vertical-align: middle;
+        font-size: 1.1rem;
+        transition: background-color 0.2s ease;
+    }
+
+    /* Efekt hover po najechaniu myszką na dany dzień */
+    .calendar-wrapper td:hover:not(:empty) {
+        background-color: #e9ecef;
+        cursor: pointer;
+    }
+
+    /* Ukrywamy puste komórki (dni z poprzedniego/następnego miesiąca) */
+    .calendar-wrapper td:empty {
+        background-color: #ffffff;
+        border: none;
+    }
+</style>
+{% endblock %}

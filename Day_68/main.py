@@ -91,6 +91,50 @@ def logout():
   logout_user()
   return render_template('index.html')
 
+# region kombinacje alpejskie
+import calendar
+from datetime import datetime
+@app.route('/calendar')
+def show_calendar():
+  yy = datetime.now().year
+  mm = datetime.now().month
+
+  cal = calendar.HTMLCalendar(calendar.MONDAY)
+  html_table = cal.formatmonth(yy, mm)
+
+  html_table = html_table.replace('<table border="0" cellpadding="2" cellspacing="0" class="month">',
+                                  '<table class="table table-bordered table-striped text-center">')
+  return render_template('calendar.html', calendar_table=html_table)
+
+@app.route('/uber-calendar')
+def uber_calendar():
+    return render_template('fullcalendar.html')
+
+
+from flask import jsonify
+@app.route('/api/data')
+def return_data():
+  # Udajemy, że wyciągamy to z bazy danych przez SQLAlchemy:
+  # events = db.session.execute(db.select(Event)).scalars().all()
+
+  events = [
+    {
+      'title': 'Pieczenie chleba z zakwasu 🥖',
+      'start': '2026-05-16T10:00:00',
+      'end': '2026-05-16T14:00:00',
+      'className': 'bg-success'  # Klasa Bootstrapa!
+    },
+    {
+      'title': 'Pojedynek z punktem 69 Flaska 🐍',
+      'start': '2026-05-18',
+      'end': '2026-05-20',
+      'className': 'bg-danger'
+    }
+  ]
+  return jsonify(events)
+
+# endregion
+
 @app.route('/download')
 @login_required
 def download():
