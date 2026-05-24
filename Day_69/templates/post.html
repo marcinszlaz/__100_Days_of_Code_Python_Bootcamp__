@@ -45,15 +45,20 @@
         <div class="comment">
           <!-- TODO: Show all the comments on a post -->
           <ul class="commentList">
+            {% for comment in comments: %}
             <li>
               <div class="commenterImage">
-                <img src="../static/assets/img/default-profile.jpg" />
+                {% with g = gravatar(comment.author.email) %} <!-- with this approach you have explicitly write gravatar = gravatar inside render_template function otherwise you got error, second approach is much shorter and get gravatar from application context, you don't have to write gravatar = gravatar, second approach looks like this:
+                {{ comment.author.email | gravatar }} when you using jinja filter you get directly access to gravatar = Gravatar(app) instead of explicitly declared attribute gravatar = gravatar inside render_template function, so you get gravatar from application instead of fetching it from rendered HTML template -->
+                <img src="{{ g }}" />
+                {% endwith %}
               </div>
               <div class="commentText">
-                <p>Some comment</p>
-                <span class="date sub-text">comment author name</span>
+                <p>{{ comment.text|safe }}</p>
+                <span class="date sub-text">{{ comment.author.name }}</span>
               </div>
             </li>
+            {% endfor %}
           </ul>
         </div>
       </div>

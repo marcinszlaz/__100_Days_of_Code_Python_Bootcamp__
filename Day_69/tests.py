@@ -1,4 +1,7 @@
+from libgravatar import Gravatar
 from functools import wraps
+import hashlib
+from hashlib import md5
 
 # def dodawanie(x: int,y: int)->int:
 #   """dodawamy xD"""
@@ -27,3 +30,8 @@ def dodawanie(x: int,y: int)->int:
 dodawanie(5,5)
 # print(id(dodawanie(5,5)))
 
+
+g = Gravatar('myemailaddress@example.com')
+g.get_image()
+
+# 'https://www.gravatar.com/avatar/0bc83cb571cd1c50ba6f3e8a78ef1346'

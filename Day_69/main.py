@@ -1,19 +1,21 @@
 # region import
+import hashlib
+from urllib.parse import urlencode
 from datetime import date
 from flask import Flask, abort, render_template, redirect, url_for, flash, request
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
 from flask_gravatar import Gravatar
-from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user
+from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Text, ForeignKey
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
-
-from Day_69.forms import CommentForm
-from forms import CreatePostForm, RegisterForm, LoginForm
+from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 import sys
+import bleach
+from tags import allowed_post_tags, allowed_post_attrs
 # endregion
 # region maintenance
 print('we using: ',sys.executable) # we've had problems with dependencies, that's why
@@ -22,6 +24,9 @@ app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 # endregion
+# region gravatar
+gravatar = Gravatar(app)
+# endregion
 # region Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -29,7 +34,6 @@ login_manager.init_app(app)
 def load_user(user_id):
   return db.get_or_404(User,user_id)
 # endregion
-# if you need old data you can find it here (don't remove posts.db old db file)
 # region OLD DATABASE
 # class Base(DeclarativeBase):
 #   pass
@@ -90,12 +94,11 @@ class BlogPost(db.Model):
 class Comment(db.Model):
   __tablename__ = "comments"
   id: Mapped[int] = mapped_column(Integer, primary_key=True)
-  text: Mapped[str] = mapped_column(String(500), nullable=False)
+  text: Mapped[str] = mapped_column(String(500), nullable=True)
   author_id: Mapped[int] = mapped_column(ForeignKey("user_table.id"))
   author: Mapped["User"] = relationship(back_populates="comments")
   post_id: Mapped[int] = mapped_column(ForeignKey("blog_posts.id"))
   parent_post: Mapped["BlogPost"] = relationship(back_populates="comments")
-
 
 with app.app_context():
   db.create_all()
@@ -165,10 +168,27 @@ def get_all_posts():
 # region post
 # TODO: Allow logged-in users to comment on posts
 @app.route("/post/<int:post_id>", methods=['GET','POST'])
+# @login_required
 def show_post(post_id):
   form = CommentForm()
   requested_post = db.get_or_404(BlogPost, post_id)
-  return render_template("post.html", post=requested_post, date=date, form=form)
+  user_obj = db.get_or_404(User,current_user.id)
+  comments = db.session.execute(db.select(Comment).where(Comment.post_id==post_id)).scalars().all()
+  if form.validate_on_submit():
+    if current_user.is_authenticated:
+      dirty_text = form.data.get('body') # bleach will bleach'em all malicious content inside HTML code (in theory xD)
+      clean_text = bleach.clean(dirty_text,tags = allowed_post_tags, strip=True) # with bleach you can safely use |safe filter inside HTML code
+      post_id = requested_post.id
+      new_row = Comment(text = clean_text,post_id = post_id,author=user_obj) # you don't have to put inside direct values from
+      # other tables, you can use WHOLE table OBJECT or even constructor alone! as kwarg = value(), HAHAHA, nope xD
+      # IntegrityError with constructor xD, it have to be object from db table, selected by id or something like this
+      db.session.add(new_row)
+      db.session.commit()
+      comments = db.session.execute(db.select(Comment).where(Comment.post_id==post_id)).scalars().all()
+      return render_template("post.html", post=requested_post, date=date, form=form, comments=comments,gravatar=gravatar)
+    else:
+      return redirect(url_for('login'))
+  return render_template("post.html", post=requested_post, date=date, form=form, comments=comments,gravatar=gravatar)
 # endregion
 # region new_post
 @app.route("/new-post", methods=["GET", "POST"])
@@ -179,7 +199,7 @@ def add_new_post():
     new_post = BlogPost(
       title=form.title.data,
       subtitle=form.subtitle.data,
-      body=form.body.data,
+      body=(bleach.clean(form.body.data,tags=allowed_post_tags,strip=True)),
       img_url=form.img_url.data,
       author=current_user,
       date=date.today().strftime("%B %d, %Y")
@@ -206,7 +226,7 @@ def edit_post(post_id):
     post.subtitle = edit_form.subtitle.data
     post.img_url = edit_form.img_url.data
     post.author = current_user
-    post.body = edit_form.body.data
+    post.body = bleach.clean(edit_form.body.data,tags=allowed_post_tags,strip=True)
     db.session.commit()
     return redirect(url_for("show_post", post_id=post.id))
   return render_template("make-post.html", form=edit_form, is_edit=True, date=date)
