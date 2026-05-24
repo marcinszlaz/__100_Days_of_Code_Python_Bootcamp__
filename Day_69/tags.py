@@ -1,4 +1,3 @@
-
 allowed_post_tags = [
     'p', 'b', 'i', 'strong', 'em', 'u', 'sub', 'sup',
     'h1', 'h2', 'h3', 'h4', 'h5', 'h6',

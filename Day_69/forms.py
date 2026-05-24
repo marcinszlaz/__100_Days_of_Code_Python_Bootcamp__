@@ -12,7 +12,7 @@ class CreatePostForm(FlaskForm):
   submit = SubmitField("Submit Post")
 # endregion
 
-# TODO: Create a RegisterForm to register new users
+
 class RegisterForm(FlaskForm):
   name = StringField("Type your username", validators=[DataRequired()])
   email = EmailField(label = "Type your user email", validators=[Email(),DataRequired()])
@@ -20,13 +20,12 @@ class RegisterForm(FlaskForm):
   password2 = PasswordField("Retype your user password", validators=[DataRequired(),EqualTo('password')])
   submit = SubmitField("Send Data")
 
-# TODO: Create a LoginForm to login existing users
+
 class LoginForm(FlaskForm):
   email = EmailField(label="Type your user email", validators=[DataRequired(), Email()])
   password = PasswordField("Type your password", validators=[DataRequired()])
   submit = SubmitField("Log in")
 
-# TODO: Create a CommentForm so users can leave comments below posts
 class CommentForm(FlaskForm):
   body = CKEditorField("Comment", validators=[DataRequired()])
   submit = SubmitField("Send comment")
