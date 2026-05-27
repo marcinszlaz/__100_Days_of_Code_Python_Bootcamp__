@@ -10,26 +10,13 @@ from sqlalchemy import Integer, String, Text
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
-# Optional: add contact me email functionality (Day 60)
-# import smtplib
+import smtplib, pathlib, os
+from dotenv import load_dotenv
 
-
-'''
-Make sure the required packages are installed: 
-Open the Terminal in PyCharm (bottom left). 
-
-On Windows type:
-python -m pip install -r requirements.txt
-
-On MacOS type:
-pip3 install -r requirements.txt
-
-This will install the packages from the requirements.txt for this project.
-'''
-
-
+path = pathlib.Path.cwd() / '.env'
+load_dotenv()
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.environ.get('APP_SECRET_KEY')
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 
@@ -37,11 +24,9 @@ Bootstrap5(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return db.get_or_404(User, user_id)
-
 
 # For adding profile images to the comment section
 gravatar = Gravatar(app,
@@ -56,10 +41,9 @@ gravatar = Gravatar(app,
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQL_URI')
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
-
 
 # CONFIGURE TABLES
 class BlogPost(db.Model):
@@ -77,7 +61,6 @@ class BlogPost(db.Model):
     # Parent relationship to the comments
     comments = relationship("Comment", back_populates="parent_post")
 
-
 # Create a User table for all your registered users
 class User(UserMixin, db.Model):
     __tablename__ = "users"
@@ -90,7 +73,6 @@ class User(UserMixin, db.Model):
     posts = relationship("BlogPost", back_populates="author")
     # Parent relationship: "comment_author" refers to the comment_author property in the Comment class.
     comments = relationship("Comment", back_populates="comment_author")
-
 
 # Create a table for the comments on the blog posts
 class Comment(db.Model):
@@ -105,10 +87,8 @@ class Comment(db.Model):
     post_id: Mapped[str] = mapped_column(Integer, db.ForeignKey("blog_posts.id"))
     parent_post = relationship("BlogPost", back_populates="comments")
 
-
 with app.app_context():
     db.create_all()
-
 
 # Create an admin-only decorator
 def admin_only(f):
@@ -121,7 +101,6 @@ def admin_only(f):
         return f(*args, **kwargs)
 
     return decorated_function
-
 
 # Register new users into the User database
 @app.route('/register', methods=["GET", "POST"])
@@ -154,7 +133,6 @@ def register():
         return redirect(url_for("get_all_posts"))
     return render_template("register.html", form=form, current_user=current_user)
 
-
 @app.route('/login', methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -182,7 +160,6 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('get_all_posts'))
-
 
 @app.route('/')
 def get_all_posts():
@@ -297,6 +274,5 @@ def contact():
 #         connection.login(MAIL_ADDRESS, MAIL_APP_PW)
 #         connection.sendmail(MAIL_ADDRESS, MAIL_APP_PW, email_message)
 
-
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=os.environ.get('port'),host=os.environ.get('host'))
