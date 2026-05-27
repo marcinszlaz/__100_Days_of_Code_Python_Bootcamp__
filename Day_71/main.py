@@ -267,4 +267,4 @@ def contact():
 #         connection.sendmail(MAIL_ADDRESS, MAIL_APP_PW, email_message)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=os.environ.get('port'),host=os.environ.get('host'))
+    app.run(debug=True)
