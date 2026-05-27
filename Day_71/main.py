@@ -155,7 +155,6 @@ def login():
 
     return render_template("login.html", form=form, current_user=current_user)
 
-
 @app.route('/logout')
 def logout():
     logout_user()
@@ -166,7 +165,6 @@ def get_all_posts():
     result = db.session.execute(db.select(BlogPost))
     posts = result.scalars().all()
     return render_template("index.html", all_posts=posts, current_user=current_user)
-
 
 # Add a POST method to be able to post comments
 @app.route("/post/<int:post_id>", methods=["GET", "POST"])
@@ -189,7 +187,6 @@ def show_post(post_id):
         db.session.commit()
     return render_template("post.html", post=requested_post, current_user=current_user, form=comment_form)
 
-
 # Use a decorator so only an admin user can create new posts
 @app.route("/new-post", methods=["GET", "POST"])
 @admin_only
@@ -208,7 +205,6 @@ def add_new_post():
         db.session.commit()
         return redirect(url_for("get_all_posts"))
     return render_template("make-post.html", form=form, current_user=current_user)
-
 
 # Use a decorator so only an admin user can edit a post
 @app.route("/edit-post/<int:post_id>", methods=["GET", "POST"])
@@ -231,7 +227,6 @@ def edit_post(post_id):
         return redirect(url_for("show_post", post_id=post.id))
     return render_template("make-post.html", form=edit_form, is_edit=True, current_user=current_user)
 
-
 # Use a decorator so only an admin user can delete a post
 @app.route("/delete/<int:post_id>")
 @admin_only
@@ -241,11 +236,9 @@ def delete_post(post_id):
     db.session.commit()
     return redirect(url_for('get_all_posts'))
 
-
 @app.route("/about")
 def about():
     return render_template("about.html", current_user=current_user)
-
 
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
@@ -265,7 +258,6 @@ def contact():
 #         send_email(data["name"], data["email"], data["phone"], data["message"])
 #         return render_template("contact.html", msg_sent=True)
 #     return render_template("contact.html", msg_sent=False)
-#
 #
 # def send_email(name, email, phone, message):
 #     email_message = f"Subject:New Message\n\nName: {name}\nEmail: {email}\nPhone: {phone}\nMessage:{message}"
