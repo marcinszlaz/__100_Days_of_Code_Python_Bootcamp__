@@ -1,3 +1,7 @@
+# if you deply it on render.com
+# you have add PYTHON_VERSION = 3.12 into environments
+# in other case render.com will set 3.14 and everything blow up
+
 from datetime import date
 from flask import Flask, abort, render_template, redirect, url_for, flash, request
 from flask_bootstrap import Bootstrap5
