@@ -1,6 +1,6 @@
 class User:
     pass # mozna tez uzyc slowa kluczowego pass albo standardowo ...
-    def __init__(self, sex, user_id): # ta metoda jest prosta, to jest inicjalizator zmiennych, działą przy użyciu konstruktora obiektu
+    def __init__(self, sex, user_id): # ta metoda jest prosta, to jest inicjalizator zmiennych, działą przy użyciu konstruktora obiektu, nie durniu, to jest właśnie konstruktor xDDD (dodano 16 czerwca, czyli 5 miesięcy później xD)
         print('new user being created...') # ten tekst wydrukuje sie zawsze gdy zadziała obiekt stworzony przez konstruktor
         # np przy przypisaywaniu zmiennych albo przy drukowaniu chyba bardziej NIE DZIAŁA TYLKO PRZY KONSTRUKTORZE !!!
         self.sex = sex
