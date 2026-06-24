@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Kalendarz{% endblock %}
+
+{% block content %}
+<h2>Kalendarz - {{ month }}/{{ year }}</h2>
+
+<table class="table table-bordered text-center">
+    <thead>
+    <tr>
+        <th>Pn</th>
+        <th>Wt</th>
+        <th>Śr</th>
+        <th>Cz</th>
+        <th>Pt</th>
+        <th>So</th>
+        <th>Nd</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for week in cal %}
+        <tr>
+            {% for day in week %}
+                {% if day == 0 %}
+                    <td></td>
+                {% else %}
+                    <td>
+                        <strong>{{ day }}</strong>
+                        <br>
+                        {% for event in events %}
+                            {% if event.date.day == day and event.date.month == month and event.date.year == year %}
+                                <span class="badge bg-primary d-block mt-1">
+                                    {{ event.title }}
+                                </span>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('add_event') }}" class="btn btn-success">Dodaj event</a>
+{% endblock %}
