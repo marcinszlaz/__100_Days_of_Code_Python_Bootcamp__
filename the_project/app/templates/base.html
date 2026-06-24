@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    {% if title: %}
+    <title> {{ title }} </title>
+    {% else: %}
+    <title> Witaj w piekle </title>
+    {% endif %}
+  </head>
+  <body>
+    <div>FullCallendar: <a href={{ url_for("index") }}>Domowa</a>
+                        <a href={{ url_for("login") }}>Logowanie</a>
+    </div> 
+    <hr>
+    
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li> {{ message }} </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %} <!-- content --> {% endblock %}
+   
+    <hr>
+  </body>
+</html>
