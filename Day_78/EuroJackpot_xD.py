@@ -3,9 +3,9 @@ import time
 win_five = []
 win_two = []
 def rand_a():
-  return r.sample(population=range(1, 51, 1), k=5)
+  return r.sample(population=range(1, 51, 1), k = 5)
 def rand_b():
-  return r.sample(population = range(1,13,1), k = 2)
+  return r.sample(population = range(1, 13, 1), k = 2)
 def random_digits()->None:
   global win_five, win_two
   win_five = rand_a()
